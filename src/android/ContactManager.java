@@ -283,7 +283,14 @@ public class ContactManager extends CordovaPlugin {
                 search(executeArgs);
                 break;
             case SAVE_REQ_CODE:
-                save(executeArgs);
+                //With Android O it's needed permissions to read when we're saving contacts
+                if(PermissionHelper.hasPermission(this, READ)) {
+                    save(executeArgs);
+                }
+                else
+                {
+                    getReadPermission(SAVE_REQ_CODE);
+                }
                 break;
             case REMOVE_REQ_CODE:
                 remove(executeArgs);
