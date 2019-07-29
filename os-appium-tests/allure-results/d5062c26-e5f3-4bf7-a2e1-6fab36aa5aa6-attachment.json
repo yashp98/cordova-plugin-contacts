@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "*//android.widget.LinearLayout[@resource-id=\"com.android.packageinstaller:id/dialog_container\"]"
-}
