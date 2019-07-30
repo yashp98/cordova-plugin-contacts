@@ -15,5 +15,6 @@ Thumbs.db
 node_modules/
 allure-results/
 os-appium-tests/allure-results/
+os-appium-tests/dist/
 *.zip
 *.tar
