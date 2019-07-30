@@ -8,7 +8,7 @@ import 'jasmine';
 import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../constants';
 import * as Context from '../helpers/Context';
 import NativeAlert from '../helpers/NativeAlert';
-import * as ContactsScreen from '../screenobjects/ContactSscreen';
+import * as ContactsScreen from '../screenobjects/ContactsScreen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
