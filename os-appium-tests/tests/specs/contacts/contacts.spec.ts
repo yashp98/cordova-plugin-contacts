@@ -5,10 +5,10 @@ However, this one doesn't have teardown, because the plugin can't delete contact
 
 // Import constants and classes needed
 import 'jasmine';
-import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../constants';
-import * as Context from '../helpers/Context';
-import NativeAlert from '../helpers/NativeAlert';
-import * as ContactsScreen from '../screenobjects/ContactsScreen';
+import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../../constants';
+import * as Context from '../../helpers/Context';
+import NativeAlert from '../../helpers/NativeAlert';
+import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 

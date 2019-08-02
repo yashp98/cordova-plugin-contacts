@@ -4,12 +4,12 @@ exports.config = {
     // Specs
     // ============
     specs: [
-        './tests/specs/*.spec.ts'
+        './tests/specs/**/*.spec.ts'
     ],
 
     // define specific suites
     suites: {
-        home: ['./tests/specs/contact.spec.ts']
+        home: ['./tests/specs/contacts/contacts.spec.ts']
     },
 
     // ====================
