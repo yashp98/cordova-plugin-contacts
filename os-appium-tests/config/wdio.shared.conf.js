@@ -52,8 +52,6 @@ exports.config = {
     // Some hooks
     // ====================
     afterTest: function (test) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         console.log(test);
         if (!test.passed) {
             browser.takeScreenshot();
