@@ -1,6 +1,18 @@
-import * as AndroidUtils from '../helpers/AndroidUtils';
 import * as Context from '../helpers/Context';
-import * as IOSUtils from '../helpers/IOSUtils';
+
+// APPLICATION DEFAULTS
+
+export function getAppMenu(): WebdriverIO.Element {
+    return Context.getElemBySelector('#b2-Menu');
+}
+
+export function getHomeScreenMenuEntry(): WebdriverIO.Element {
+    return Context.getElemBySelector('#b1-b1-HomeScreen');
+}
+
+export function getBackButton(): WebdriverIO.Element {
+    return Context.getElemBySelector('#b2-Back');
+}
 
 // SETUP BUTTONS - ADD CONTACT
 
@@ -179,3 +191,13 @@ export function getFindContactBottomMenu(): WebdriverIO.Element {
 export function getPickContactBottomMenu(): WebdriverIO.Element {
     return Context.getElemBySelector('#b4-PickContactBottomBar');
 }
+
+
+// SCREEN NAMES
+
+export const SCREENTITLES = {
+    HOME_SCREEN: 'Contacts plugin',
+    ADD_CONTACT: 'Add',
+    FIND_CONTACT: 'Find',
+    PICK_CONTACT: 'Pick'
+};
