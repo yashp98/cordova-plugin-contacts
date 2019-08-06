@@ -88,13 +88,13 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         allowPermissionIfNeeded(true);
 
         // The expected result is for the contact to be created (message text = true)        
-        const feedbackMessage = ContactsScreen.getFeedbackMessage();
-        feedbackMessage.waitForDisplayed(DEFAULT_TIMEOUT);
-        const feedbackMessageText = feedbackMessage.getText();
-        expect(feedbackMessageText).toEqual('Success: True');        
-        feedbackMessage.click();
+        const successCard = ContactsScreen.getSuccessCard();
+        successCard.waitForDisplayed(DEFAULT_TIMEOUT);
+        successCard.scrollIntoView();
 
-        // discover a way to validate the number in the contacts
+        const successMessageText = ContactsScreen.getSuccessMessage().getText();
+        expect(successMessageText).toEqual('Contact successfully added.');                
+        
     });
 
     it('[Test, Description("Add contact with same number"), Priority="P2"]', () => {
@@ -121,11 +121,13 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         addContactButton.click();
     
         // The expected result is for the contact to be created (message text = true)
-        const feedbackMessage = ContactsScreen.getFeedbackMessage();
-        feedbackMessage.waitForDisplayed(DEFAULT_TIMEOUT);
-        const feedbackMessageText = feedbackMessage.getText();
-        expect(feedbackMessageText).toEqual('Success: True');        
-        feedbackMessage.click();
+        const successCard = ContactsScreen.getSuccessCard();
+        successCard.waitForDisplayed(DEFAULT_TIMEOUT);
+        successCard.scrollIntoView();
+
+        const successMessageText = ContactsScreen.getSuccessMessage().getText();
+        expect(successMessageText).toEqual('Contact successfully added.');        
+
     });
     
     it('[Test, Description("Find Contact by First Name"), Priority="P0"]', () => {
@@ -149,6 +151,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Test: click to find the contact
         const findContactButton = ContactsScreen.getFindContactButton();
         findContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        findContactButton.scrollIntoView();
         findContactButton.click();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
@@ -157,6 +160,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Wait for the list to be displayed and click in the first result
         const findContactResultList = ContactsScreen.getFindContactResultList();
         findContactResultList.waitForDisplayed(DEFAULT_TIMEOUT);
+        findContactResultList.scrollIntoView();
         findContactResultList.click();
 
         // Validate all the information in the contact

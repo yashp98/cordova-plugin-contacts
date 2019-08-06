@@ -1,5 +1,5 @@
 const { config } = require('./wdio.shared.conf');
-const { join } = require('path'); // added by Ines & Sandra
+const { join } = require('path');
 // ============
 // Capabilities
 // ============

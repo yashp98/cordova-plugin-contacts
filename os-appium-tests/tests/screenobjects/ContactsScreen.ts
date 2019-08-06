@@ -178,6 +178,37 @@ export function getValidateNotes(): WebdriverIO.Element {
     return Context.getElemBySelector('#note');
 }
 
+// Result Cards
+
+export function getSuccessCard(): WebdriverIO.Element {
+    return Context.getElemBySelector('#successCard');
+}
+
+export function getCloseSuccessCardButton(): WebdriverIO.Element {
+    return Context.getElemBySelector('#closeSuccessCard');
+}
+
+export function getSuccessMessage(): WebdriverIO.Element {
+    return Context.getElemBySelector('#successMessage');
+}
+
+export function getFailureCard(): WebdriverIO.Element {
+    return Context.getElemBySelector('#failureCard');
+}
+
+export function getCloseFailureCardButton(): WebdriverIO.Element {
+    return Context.getElemBySelector('#closeFailureCard');
+}
+
+export function getErrorCode(): WebdriverIO.Element {
+    return Context.getElemBySelector('#errorCode');
+}
+
+export function getErrorMessage(): WebdriverIO.Element {
+    return Context.getElemBySelector('#errorMessage');
+}
+
+
 // BOTTOM BAR
 
 export function getAddContactBottomMenu(): WebdriverIO.Element {
@@ -199,5 +230,6 @@ export const SCREENTITLES = {
     HOME_SCREEN: 'Contacts plugin',
     ADD_CONTACT: 'Add',
     FIND_CONTACT: 'Find',
-    PICK_CONTACT: 'Pick'
+    PICK_CONTACT: 'Pick',
+    DETAIL_SCREEN: 'Contact details'
 };
