@@ -52,7 +52,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     }
 
     // One contact created - it's used for all tests
-    beforeEach(() => {
+    beforeAll(() => {
 
         // Wait for webview to load
         Context.waitForWebViewContextLoaded();
