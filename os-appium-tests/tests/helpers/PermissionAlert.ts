@@ -9,6 +9,8 @@ const SELECTORS = {
 
     IOS: {
         PERMISSION_DIALOG: '*//XCUIElementTypeAlert',
+        PERMISSION_ALLOW_BUTTON: '*//XCUIElementTypeButton[@name="OK"]',
+        PERMISSION_DENY_BUTTON: '*//XCUIElementTypeButton[@name="Don’t Allow"]'
     },
 };
 
@@ -31,18 +33,10 @@ class PermissionAlert {
     }
 
  
-    public static allowPermission(allow = true, driver): void {
-        
-        let buttonSelector = undefined;
-        if(driver.isAndroid){
-            buttonSelector = allow ? SELECTORS.ANDROID.PERMISSION_ALLOW_BUTTON : SELECTORS.ANDROID.PERMISSION_DENY_BUTTON;
-        }
-        else{
-            buttonSelector = undefined; // TODO
-        }
-
+    public static allowPermission(allow = true, driver): void {        
+        const selectors = driver.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
+        const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
         const permissionButton = $(buttonSelector);
-
         permissionButton.click();
     }
 
