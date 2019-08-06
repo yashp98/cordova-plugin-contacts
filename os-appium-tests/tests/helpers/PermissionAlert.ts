@@ -33,6 +33,11 @@ class PermissionAlert {
     }
 
  
+    /**
+     * Allow or deny a permission request
+     * 
+     * @param {boolean} allow 
+     */
     public static allowPermission(allow = true, driver): void {        
         const selectors = driver.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
         const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
