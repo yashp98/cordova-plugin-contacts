@@ -7,7 +7,6 @@ However, this one doesn't have teardown, because the plugin can't delete contact
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
 import * as Context from '../../helpers/Context';
-import NativeAlert from '../../helpers/NativeAlert';
 import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 import PermissionAlert from '../../helpers/PermissionAlert';
 
