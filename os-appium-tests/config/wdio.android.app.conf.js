@@ -1,4 +1,4 @@
-const { join } = require('path'); // added by Ines & Sandra
+const { join } = require('path');
 const { config } = require('./wdio.shared.conf');
 // ============
 // Capabilities
@@ -17,7 +17,7 @@ config.capabilities = [
         // chromedriver windows:
         chromedriver: join(process.cwd(), 'chromedriver/chromedriver.exe'),
         // chromedriver iOS:
-        // chromedriver: join(process.cwd(), 'chromedriver/chromedriver_iOS'),
+        // chromedriver: join(process.cwd(), 'chromedriver/chromedriver_76_iOS'),
         noReset: true
     },
 ];

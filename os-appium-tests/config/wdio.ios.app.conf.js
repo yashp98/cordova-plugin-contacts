@@ -1,4 +1,5 @@
 const { config } = require('./wdio.shared.conf');
+const { join } = require('path'); // added by Ines & Sandra
 // ============
 // Capabilities
 // ============
@@ -8,10 +9,11 @@ config.capabilities = [
     {
         // The defaults you need to have in your config
         automationName: 'XCUITest',
-        deviceName: 'OutSystems',
+        deviceName: 'iPhone X',
         platformName: 'iOS',
-        platformVersion: '12.1',
+        platformVersion: '12.2',
         orientation: 'PORTRAIT',
+        app: join(process.cwd(), 'apps/Contacts_Sample_App.zip'),
         noReset: true,
     },
 ];
