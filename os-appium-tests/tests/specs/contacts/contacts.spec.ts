@@ -28,13 +28,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(screenTitle).toContain(title);
     }
 
-    const clickOnDiv = (element: WebdriverIO.Element) => {
-        const runInBrowser = function(argument) {             
-            argument.click();
-        };        
-        browser.execute(runInBrowser, element);                
-    }
-
     const backToHomeScreen = () => {
         const menuButton = ContactsScreen.getAppMenu();
         menuButton.waitForDisplayed(DEFAULT_TIMEOUT);
@@ -164,6 +157,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         findContactResultList.click();
 
         // Validate all the information in the contact
+        waitForScreen(ContactsScreen.SCREENTITLES.DETAIL_SCREEN);
         ContactsScreen.getValidateFirstName().waitForDisplayed(DEFAULT_TIMEOUT);
         expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
         expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
