@@ -3,7 +3,7 @@ import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../constants';
 const SELECTORS = {
     ANDROID: {
         ALERT_BUTTON: '*//android.widget.Button[@text="{BUTTON_TEXT}"]',
-        ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/alertTitle"]'
+        ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/alertTitle"]',
     },
 
     IOS: {
