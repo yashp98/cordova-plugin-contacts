@@ -1,14 +1,18 @@
 /*
 After each test scenario (or each suite of tests), the test should have a teardown where all contacts created are deleted
 However, this one doesn't have teardown, because the plugin can't delete contacts and, with appium, we can't access the native contacts and delete them
+
+Leaving the contacts after each test could have impact in the result of the remaining tests and, in the worst scenario, lead to false positives.
+We should be careful while creating new contacts and new tests to not overlay with the already existent contacts.
+For example, new contacts created should have a different name than the already existent ones.
 */
 
 // Import constants and classes needed
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
 import * as Context from '../../helpers/Context';
-import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 import PermissionAlert from '../../helpers/PermissionAlert';
+import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
@@ -38,7 +42,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         const menuList = ContactsScreen.getHomeScreenMenuEntry();
         menuList.waitForDisplayed(DEFAULT_TIMEOUT);
-        menuList.click();        
+        menuList.click();
 
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
     }
