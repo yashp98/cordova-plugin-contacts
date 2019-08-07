@@ -24,18 +24,18 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
             PermissionAlert.isShown(false, browser);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-    }
+    };
 
     const waitForScreen = (title: string) => {
         ContactsScreen.getTitle().waitForDisplayed(DEFAULT_TIMEOUT);
         const screenTitle: string = ContactsScreen.getTitle().getText();
         expect(screenTitle).toContain(title);
-    }
+    };
 
     const backToHomeScreen = () => {
         const menuButton = ContactsScreen.getAppMenu();
         menuButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        if(!menuButton.isDisplayedInViewport()){
+        if (!menuButton.isDisplayedInViewport()) {
             menuButton.scrollIntoView();
         }
         menuButton.click();
@@ -45,9 +45,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         menuList.click();
 
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-    }
+    };
 
-    // One contact created - it's used for all tests
     beforeAll(() => {
 
         // Wait for webview to load
@@ -84,17 +83,17 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
         allowPermissionIfNeeded(true);
 
-        // The expected result is for the contact to be created (message text = true)        
+        // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
         successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
-        expect(successMessageText).toEqual('Contact successfully added.');                
-        
+        expect(successMessageText).toEqual('Contact successfully added.');
+
     });
 
-    it('[Test, Description("Add contact with same number"), Priority="P2"]', () => {
+    it('[Test, Description("Add contact with different number"), Priority="P2"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -110,23 +109,23 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Setup of the test
         const setupContactButton = ContactsScreen.SetupContactDifferentPhone();
         setupContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        setupContactButton.click();        
+        setupContactButton.click();
 
         // Test: click to create the contact
         const addContactButton = ContactsScreen.getAddContactButton();
         addContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
         addContactButton.click();
-    
+
         // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
         successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
-        expect(successMessageText).toEqual('Contact successfully added.');        
+        expect(successMessageText).toEqual('Contact successfully added.');
 
     });
-    
+
     it('[Test, Description("Find Contact by First Name"), Priority="P0"]', () => {
 
         // Back To Home Screen
@@ -166,6 +165,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
         expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
         expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
+        expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
         expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
     });
 
