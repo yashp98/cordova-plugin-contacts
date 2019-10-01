@@ -165,7 +165,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
         expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
         expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
-        expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
+        if (browser.isAndroid) {
+            expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
+        }
         expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
     });
 

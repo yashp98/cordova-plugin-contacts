@@ -11,12 +11,17 @@
     "android": "wdio ./config/wdio.android.app.conf.js",
     "ios": "wdio ./config/wdio.ios.app.conf.js",
     "devicefarm": "wdio ./config/wdio.devicefarm.conf.js",
-    "saucelabs": "wdio ./config/saucelabs/wdio.ios.rdc.app.conf.js",
+    "saucelabs-ios": "wdio ./config/wdio.saucelabs.ios.conf.js",
+    "saucelabs-android": "wdio ./config/wdio.saucelabs.android.conf.js",
     "report": "allure generate ./allure-results --clean",
     "buildRunReport": "npm run devicefarm; npm run report",
     "bundleAws": "npm run rebuild && npm-bundle && zip -r awsTests.zip *.tgz"
   },
   "author": "OutSystems",
+  "repository": {
+    "type": "git",
+    "private": true
+  },
   "license": "MIT",
   "dependencies": {
     "@types/jasmine": "~3.3.8",

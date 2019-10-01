@@ -8,7 +8,7 @@ const { join } = require('path');
 config.capabilities = [
     {
         // The defaults you need to have in your config
-        automationName: 'XCUITest',
+       // automationName: 'XCUITest',
         deviceName: 'iPhone X',
         platformName: 'iOS',
         platformVersion: '12.2',
