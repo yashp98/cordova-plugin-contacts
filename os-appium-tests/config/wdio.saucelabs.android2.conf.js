@@ -6,28 +6,28 @@ const { config } = require('./wdio.shared.conf');
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
 config.capabilities = [
     {
-        // deviceName: 'iPhone.*',
+        // deviceName: 'Samsung_Galaxy_S6_sjc_free',
         // The reference to the app
         testobject_app_id: '1',
         // The api key that has a reference to the app-project in the TO cloud
-        testobject_api_key: '3AB3DF1AD66F47D2B4B620CBBF1920A9',
+        testobject_api_key: '5D7195B3033D4FFBB83BD16CD5111C3E',
         // The name of the test for in the cloud
-        testobject_test_name: 'Contacts - MABS 5',
+        testobject_test_name: 'contacts',
         // Some default settings
         // You can find more info in the TO Appium Basic Setup section
-        platformName: 'iOS',
-        platformVersion: '12',
+        platformName: 'Android',
+        platformVersion: '9',
         idleTimeout: 180,
+        maxInstances: 2,
         // testobject_cache_device: true,
         // noReset: true,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
+        // phoneOnly: false,
+        // tabletOnly: false,
         privateDevicesOnly: true,
         enableAnimations: true,
         autoAcceptAlerts: true
-        // maxInstances: 2,
-        // phoneOnly: false,
-        // tabletOnly: false,
     },
 ];
 
@@ -47,7 +47,7 @@ config.host = 'appium.testobject.com';
 config.port = 443;
 config.path = '/wd/hub';
 
-// This port was defined in the `wdio.shared.conf.js` for appium
+// This port was defined in the `wdio.shared.conf.js`
 // delete config.port;
 
 exports.config = config;

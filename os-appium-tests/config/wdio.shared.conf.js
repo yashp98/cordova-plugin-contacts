@@ -4,13 +4,8 @@ exports.config = {
     // Specs
     // ============
     specs: [
-        './tests/specs/**/*.spec.ts'
+        './tests/specs/**/*.spec*.ts'
     ],
-
-    // define specific suites
-    suites: {
-        home: ['./tests/specs/contacts/contacts.spec.ts']
-    },
 
     // ====================
     // Appium Configuration
@@ -42,7 +37,7 @@ exports.config = {
     reporters: [
         ['allure',
             {
-                disableWebdriverScreenshotsReporting: false,
+                disableWebdriverScreenshotsReporting: true,
                 outputDir: './allure-results'
             }],
         'spec'
@@ -53,9 +48,9 @@ exports.config = {
     // ====================
     afterTest: function (test) {
         console.log(test);
-        if (!test.passed) {
+        /* if (!test.passed) {
             browser.takeScreenshot();
-        }
+        } */
     },
 
     beforeSession: (config, capabilities, specs) => {

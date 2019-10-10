@@ -18,16 +18,16 @@ config.capabilities = [
         platformName: 'iOS',
         platformVersion: '12',
         idleTimeout: 180,
+        // maxInstances: 2,
         // testobject_cache_device: true,
         // noReset: true,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
+        // phoneOnly: true,
+        // tabletOnly: false,
         privateDevicesOnly: true,
         enableAnimations: true,
         autoAcceptAlerts: true
-        // maxInstances: 2,
-        // phoneOnly: false,
-        // tabletOnly: false,
     },
 ];
 
@@ -47,7 +47,7 @@ config.host = 'appium.testobject.com';
 config.port = 443;
 config.path = '/wd/hub';
 
-// This port was defined in the `wdio.shared.conf.js` for appium
+// This port was defined in the `wdio.shared.conf.js`
 // delete config.port;
 
 exports.config = config;

@@ -208,7 +208,6 @@ export function getErrorMessage(): WebdriverIO.Element {
     return Context.getElemBySelector('#errorMessage');
 }
 
-
 // BOTTOM BAR
 
 export function getAddContactBottomMenu(): WebdriverIO.Element {
@@ -223,13 +222,13 @@ export function getPickContactBottomMenu(): WebdriverIO.Element {
     return Context.getElemBySelector('#b4-PickContactBottomBar');
 }
 
-
 // SCREEN NAMES
 
 export const SCREENTITLES = {
     HOME_SCREEN: 'Contacts plugin',
+    // tslint:disable-next-line: object-literal-sort-keys
     ADD_CONTACT: 'Add',
     FIND_CONTACT: 'Find',
     PICK_CONTACT: 'Pick',
-    DETAIL_SCREEN: 'Contact details'
+    DETAIL_SCREEN: 'Contact details',
 };

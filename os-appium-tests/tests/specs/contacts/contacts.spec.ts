@@ -32,6 +32,15 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(screenTitle).toContain(title);
     };
 
+    const backPreviousScreen = () => {
+        const backButton = ContactsScreen.getBackButton();
+        backButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        if (!backButton.isDisplayedInViewport()) {
+            backButton.scrollIntoView();
+        }
+        backButton.click();
+    };
+
     const backToHomeScreen = () => {
         const menuButton = ContactsScreen.getAppMenu();
         menuButton.waitForDisplayed(DEFAULT_TIMEOUT);
@@ -164,11 +173,63 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         ContactsScreen.getValidateFirstName().waitForDisplayed(DEFAULT_TIMEOUT);
         expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
         expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
+        if (browser.isAndroid) {
+            expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
+            expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
+        } else {
+            expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
+        }
+        expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
+
+        // Click Back to previous screen
+        backPreviousScreen();
+        waitForScreen(ContactsScreen.SCREENTITLES.FIND_CONTACT);
+
+    });
+
+    it('[Test, Description("Pick Contact by First Name"), Priority="P0"]', () => {
+
+        // Back To Home Screen
+        backToHomeScreen();
+
+        // Enter Pind Contact Screen
+        const pickContactScreenButton = ContactsScreen.getPickContactScreen();
+        pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        pickContactScreenButton.click();
+
+        // Go to Pick Contact screen
+        waitForScreen(ContactsScreen.SCREENTITLES.PICK_CONTACT);
+
+        // Setup of the test
+        /*const setupContactButton = ContactsScreen.SetupFindFirstName();
+        setupContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        setupContactButton.click();*/
+
+        // Test: click to pick the contact
+        const pickContactButton = ContactsScreen.getPickContactButton();
+        pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        pickContactButton.scrollIntoView();
+        pickContactButton.click();
+
+        // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
+        // allowPermissionIfNeeded(true);
+
+        // Wait for the list to be displayed and click in the first result
+       /* const findContactResultList = ContactsScreen.getPickContactResultList();
+        findContactResultList.waitForDisplayed(DEFAULT_TIMEOUT);
+        findContactResultList.scrollIntoView();
+        findContactResultList.click();*/
+
+        // Validate all the information in the contact
+        /*waitForScreen(ContactsScreen.SCREENTITLES.DETAIL_SCREEN);
+        ContactsScreen.getValidateFirstName().waitForDisplayed(DEFAULT_TIMEOUT);
+        expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
+        expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
         expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
         if (browser.isAndroid) {
             expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
         }
-        expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
+        expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');*/
     });
 
 });
