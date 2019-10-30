@@ -25,8 +25,8 @@ config.capabilities = [
         newCommandTimeout: 180,
         // phoneOnly: false,
         // tabletOnly: false,
-        privateDevicesOnly: true,
-        enableAnimations: true,
+        privateDevicesOnly: false,
+        enableAnimations: false,
         autoAcceptAlerts: true
     },
 ];

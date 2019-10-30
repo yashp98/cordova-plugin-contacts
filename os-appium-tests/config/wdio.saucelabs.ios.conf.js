@@ -22,8 +22,8 @@ config.capabilities = [
         // noReset: true,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
-        privateDevicesOnly: true,
-        enableAnimations: true,
+        privateDevicesOnly: false,
+        enableAnimations: false,
         autoAcceptAlerts: true
         // maxInstances: 2,
         // phoneOnly: false,

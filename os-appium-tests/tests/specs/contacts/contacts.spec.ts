@@ -14,7 +14,7 @@ import * as Context from '../../helpers/Context';
 import PermissionAlert from '../../helpers/PermissionAlert';
 import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 
-describe('[TestSuite, Description("Add Contact and find it")]', () => {
+describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () => {
 
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
@@ -177,7 +177,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
             expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
             expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
         } else {
-            expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
+            expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351111111111');
         }
         expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
 
@@ -187,6 +187,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
+    // TODO
     it('[Test, Description("Pick Contact by First Name"), Priority="P0"]', () => {
 
         // Back To Home Screen
