@@ -8,15 +8,15 @@ config.capabilities = [
     {
         // deviceName: 'Samsung_Galaxy_S6_sjc_free',
         // The reference to the app
-        testobject_app_id: '1',
+        testobject_app_id: '2',
         // The api key that has a reference to the app-project in the TO cloud
-        testobject_api_key: '5D7195B3033D4FFBB83BD16CD5111C3E',
+        testobject_api_key: 'AED746D07F25481CBDAF1398DA162081',
         // The name of the test for in the cloud
         // testobject_test_name: 'contacts',
         // Some default settings
         // You can find more info in the TO Appium Basic Setup section
         platformName: 'Android',
-        platformVersion: '8.1',
+        platformVersion: '10',
         idleTimeout: 180,
         maxInstances: 2,
         // testobject_cache_device: true,

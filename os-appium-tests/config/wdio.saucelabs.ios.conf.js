@@ -8,15 +8,15 @@ config.capabilities = [
     {
         // deviceName: 'iPhone.*',
         // The reference to the app
-        testobject_app_id: '1',
+        testobject_app_id: '3',
         // The api key that has a reference to the app-project in the TO cloud
-        testobject_api_key: '3AB3DF1AD66F47D2B4B620CBBF1920A9',
+        testobject_api_key: '25C0C7A90F1842D9B88D72B641F5C42B',
         // The name of the test for in the cloud
-        testobject_test_name: 'Contacts - MABS 5',
+        testobject_test_name: 'iOS-Contacts-Sample-App',
         // Some default settings
         // You can find more info in the TO Appium Basic Setup section
         platformName: 'iOS',
-        platformVersion: '12',
+        platformVersion: '13.1',
         idleTimeout: 180,
         // testobject_cache_device: true,
         // noReset: true,
