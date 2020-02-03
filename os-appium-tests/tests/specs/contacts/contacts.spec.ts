@@ -14,49 +14,11 @@ import * as Context from '../../helpers/Context';
 import PermissionAlert from '../../helpers/PermissionAlert';
 import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 
-describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () => {
-
-    const allowPermissionIfNeeded = (allow: boolean) => {
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-
-        if (PermissionAlert.isShown(true, browser)) {
-            PermissionAlert.allowPermission(allow, browser);
-            PermissionAlert.isShown(false, browser);
-        }
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-    };
-
-    const waitForScreen = (title: string) => {
-        ContactsScreen.getTitle().waitForDisplayed(DEFAULT_TIMEOUT);
-        const screenTitle: string = ContactsScreen.getTitle().getText();
-        expect(screenTitle).toContain(title);
-    };
-
-    const backPreviousScreen = () => {
-        const backButton = ContactsScreen.getBackButton();
-        backButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        if (!backButton.isDisplayedInViewport()) {
-            backButton.scrollIntoView();
-        }
-        backButton.click();
-    };
-
-    const backToHomeScreen = () => {
-        const menuButton = ContactsScreen.getAppMenu();
-        menuButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        if (!menuButton.isDisplayedInViewport()) {
-            menuButton.scrollIntoView();
-        }
-        menuButton.click();
-
-        const menuList = ContactsScreen.getHomeScreenMenuEntry();
-        menuList.waitForDisplayed(DEFAULT_TIMEOUT);
-        menuList.click();
-
-        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-    };
+describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     beforeAll(() => {
+
+        browser.reset();
 
         // Wait for webview to load
         Context.waitForWebViewContextLoaded();
@@ -69,7 +31,7 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
 
     });
 
-    it('[Test, Description("Add contact with all parameters"), Priority="P0"]', () => {
+    it('[Test, Description("1. Add contact with all parameters"), Priority="P0"]', () => {
 
         // Enter Add Contact Screen
         const addContactScreenButton = ContactsScreen.getAddContactScreen();
@@ -95,14 +57,14 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
         // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        successCard.scrollIntoView();
+        // successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageText).toEqual('Contact successfully added.');
 
     });
 
-    it('[Test, Description("Add contact with different number"), Priority="P2"]', () => {
+    it('[Test, Description("2. Add contact with different number"), Priority="P2"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -128,14 +90,14 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
         // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        successCard.scrollIntoView();
+        // successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageText).toEqual('Contact successfully added.');
 
     });
 
-    it('[Test, Description("Find Contact by First Name"), Priority="P0"]', () => {
+    it('[Test, Description("3. Find Contact by First Name"), Priority="P0"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -156,7 +118,7 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
         // Test: click to find the contact
         const findContactButton = ContactsScreen.getFindContactButton();
         findContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        findContactButton.scrollIntoView();
+        // findContactButton.scrollIntoView();
         findContactButton.click();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
@@ -165,7 +127,7 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
         // Wait for the list to be displayed and click in the first result
         const findContactResultList = ContactsScreen.getFindContactResultList();
         findContactResultList.waitForDisplayed(DEFAULT_TIMEOUT);
-        findContactResultList.scrollIntoView();
+        // findContactResultList.scrollIntoView();
         findContactResultList.click();
 
         // Validate all the information in the contact
@@ -188,7 +150,7 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
     });
 
     // TODO
-    it('[Test, Description("Pick Contact by First Name"), Priority="P0"]', () => {
+    it('[Test, Description("4. Pick Contact by First Name"), Priority="P0"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -209,11 +171,11 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
         // Test: click to pick the contact
         const pickContactButton = ContactsScreen.getPickContactButton();
         pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        pickContactButton.scrollIntoView();
+        // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        // allowPermissionIfNeeded(true);
+        allowPermissionIfNeeded(true);
 
         // Wait for the list to be displayed and click in the first result
        /* const findContactResultList = ContactsScreen.getPickContactResultList();
@@ -233,4 +195,51 @@ describe('[TestSuite, Description("#### 2 #####Add Contact and find it")]', () =
         expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');*/
     });
 
+    it('[Test, Description("5. Remove contact"), Priority="P0"]', () => {
+
+    });
+
+    /**
+     * UTILS
+     */
+    const allowPermissionIfNeeded = (allow: boolean) => {
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+
+        if (PermissionAlert.isShown(browser)) {
+            PermissionAlert.allowPermission(allow, browser);
+            PermissionAlert.waitForIsShown(false, browser);
+        }
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+    };
+
+    const waitForScreen = (title: string) => {
+        ContactsScreen.getTitle().waitForDisplayed(DEFAULT_TIMEOUT);
+        const screenTitle: string = ContactsScreen.getTitle().getText();
+        expect(screenTitle).toContain(title);
+    };
+
+    const backPreviousScreen = () => {
+        const backButton = ContactsScreen.getBackButton();
+        backButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        if (!backButton.isDisplayedInViewport()) {
+            backButton.scrollIntoView();
+        }
+        backButton.click();
+    };
+
+    const backToHomeScreen = () => {
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+        const menuButton = ContactsScreen.getAppMenu();
+        menuButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        // if (!menuButton.isDisplayedInViewport()) {
+        //     menuButton.scrollIntoView();
+        // }
+        menuButton.click();
+
+        const menuList = ContactsScreen.getHomeScreenMenuEntry();
+        menuList.waitForDisplayed(DEFAULT_TIMEOUT);
+        menuList.click();
+
+        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
+    };
 });
