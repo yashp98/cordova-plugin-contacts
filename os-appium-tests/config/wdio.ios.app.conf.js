@@ -8,10 +8,10 @@ const { join } = require('path');
 config.capabilities = [
     {
         // The defaults you need to have in your config
-       // automationName: 'XCUITest',
+        automationName: 'XCUITest',
         deviceName: 'iPhone X',
         platformName: 'iOS',
-        platformVersion: '12.2',
+        platformVersion: '13.3',
         orientation: 'PORTRAIT',
         app: join(process.cwd(), 'apps/Contacts_Sample_App.zip'),
         noReset: true,

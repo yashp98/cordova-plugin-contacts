@@ -57,7 +57,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        // successCard.scrollIntoView();
+        successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageText).toEqual('Contact successfully added.');
@@ -90,7 +90,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        // successCard.scrollIntoView();
+        successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageText).toEqual('Contact successfully added.');
@@ -118,7 +118,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Test: click to find the contact
         const findContactButton = ContactsScreen.getFindContactButton();
         findContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        // findContactButton.scrollIntoView();
+        findContactButton.scrollIntoView();
         findContactButton.click();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
@@ -127,7 +127,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Wait for the list to be displayed and click in the first result
         const findContactResultList = ContactsScreen.getFindContactResultList();
         findContactResultList.waitForDisplayed(DEFAULT_TIMEOUT);
-        // findContactResultList.scrollIntoView();
+        findContactResultList.scrollIntoView();
         findContactResultList.click();
 
         // Validate all the information in the contact
@@ -150,7 +150,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     });
 
     // TODO
-    it('[Test, Description("4. Pick Contact by First Name"), Priority="P0"]', () => {
+    xit('[Test, Description("4. Pick Contact by First Name"), Priority="P0"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -195,9 +195,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');*/
     });
 
-    it('[Test, Description("5. Remove contact"), Priority="P0"]', () => {
+    // xit('[Test, Description("5. Remove contact"), Priority="P0"]', () => {
 
-    });
+    // });
 
     /**
      * UTILS
@@ -207,7 +207,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         if (PermissionAlert.isShown(browser)) {
             PermissionAlert.allowPermission(allow, browser);
-            PermissionAlert.waitForIsShown(false, browser);
+            // PermissionAlert.waitForIsShown(false, browser);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };

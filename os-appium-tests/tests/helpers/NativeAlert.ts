@@ -1,11 +1,11 @@
-import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../constants';
+import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from "../Framework"
 
 const SELECTORS = {
     ANDROID: {
         ALERT_BUTTON: '*//android.widget.Button[@text="{BUTTON_TEXT}"]',
         ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/alertTitle"]',
+        PERMISSION_DIALOG: '*//android.widget.LinearLayout[@resource-id="com.android.packageinstaller:id/dialog_container"]'
     },
-
     IOS: {
         ALERT: '*//XCUIElementTypeAlert',
     },
@@ -15,17 +15,29 @@ class NativeAlert {
     /**
      * Wait for the alert to exist
      */
-    public static waitForIsShown(isShown = true, driver): void {
-        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT;
-        $(selector).waitForExist(DEFAULT_TIMEOUT, !isShown);
+    public static waitForIsShown (isShown = true, driver): void {
+        if (driver.isAndroid) {
+            try {
+                $(SELECTORS.ANDROID.ALERT_TITLE).waitForExist(DEFAULT_TIMEOUT, !isShown);
+            } catch (err) {
+                $(SELECTORS.ANDROID.PERMISSION_DIALOG).waitForExist(DEFAULT_TIMEOUT, !isShown);
+            }
+        }
+        else {
+            $(SELECTORS.IOS.ALERT).waitForExist(DEFAULT_TIMEOUT, !isShown);
+        }
     }
 
     /**
      * Check if exists the alert
      */
-    public static isShown(isShown = true, driver): boolean {
-        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT;
-        return $(selector).isDisplayed();
+    public static isShown (isShown = true, driver): boolean {
+        if (driver.isAndroid) {
+            return $(SELECTORS.ANDROID.ALERT_TITLE).isDisplayed() || $(SELECTORS.ANDROID.PERMISSION_DIALOG).isDisplayed();
+        }
+        else {
+            return $(SELECTORS.IOS.ALERT).isDisplayed();
+        }
     }
 
     /**
@@ -40,7 +52,7 @@ class NativeAlert {
      *
      * @param {string} selector
      */
-    public static pressButton(selector, driver): void {
+    public static pressButton (selector, driver): void {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
@@ -52,7 +64,7 @@ class NativeAlert {
      *
      * @return {string}
      */
-    public static text(driver): string {
+    public static text (driver): string {
         return driver.getAlertText();
     }
 }
