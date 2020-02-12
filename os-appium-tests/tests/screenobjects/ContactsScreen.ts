@@ -86,6 +86,14 @@ export function getSwitchMultipleContacts(): WebdriverIO.Element {
     return Context.getElemBySelector('#switchMultipleContacts');
 }
 
+export function setupNameRemove(): WebdriverIO.Element {
+    return Context.getElemBySelector('#findName1Button');
+}
+
+export function getContactList(): WebdriverIO.Element {
+    return Context.getElemBySelector('#l1-0-ListItem1');
+}
+
 // SCREEN ELEMENTS
 
 export function getTitle(): WebdriverIO.Element {
@@ -122,6 +130,14 @@ export function getPickContactScreen(): WebdriverIO.Element {
 
 export function getPickContactButton(): WebdriverIO.Element {
     return Context.getElemBySelector('#pickContactButton');
+}
+
+export function getRemoveContactScreen(): WebdriverIO.Element {
+    return Context.getElemBySelector('#removeContactScreen');
+}
+
+export function getRemoveContactButton(): WebdriverIO.Element {
+    return Context.getElemBySelector('#removeContactButton');
 }
 
 // CONTACTS VALIDATION
@@ -231,4 +247,5 @@ export const SCREENTITLES = {
     FIND_CONTACT: 'Find',
     PICK_CONTACT: 'Pick',
     DETAIL_SCREEN: 'Contact details',
+    REMOVE_SCREEN: 'Remove Contact',
 };

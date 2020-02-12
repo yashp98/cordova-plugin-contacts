@@ -57,14 +57,53 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // The expected result is for the contact to be created (message text = true)
         const successCard = ContactsScreen.getSuccessCard();
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        successCard.scrollIntoView();
+        // successCard.scrollIntoView();
 
         const successMessageText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageText).toEqual('Contact successfully added.');
 
     });
 
-    it('[Test, Description("2. Add contact with different number"), Priority="P2"]', () => {
+    it('[Test, Description("2. Find and Remove Contact"), Priority="P0"]', () => {
+
+        backToHomeScreen();
+
+        const removeContactScreenButton = ContactsScreen.getRemoveContactScreen();
+        removeContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        removeContactScreenButton.click();
+
+        waitForScreen(ContactsScreen.SCREENTITLES.REMOVE_SCREEN);
+
+        const setupFindContactToRemove = ContactsScreen.setupNameRemove();
+        setupFindContactToRemove.waitForDisplayed(DEFAULT_TIMEOUT);
+        setupFindContactToRemove.click();
+
+        const findContactButton = ContactsScreen.getFindContactButton();
+        findContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        // findContactButton.scrollIntoView();
+        findContactButton.click();
+
+        const contactListItem = ContactsScreen.getContactList();
+        const contactListItemText = ContactsScreen.getContactList().getText();
+        contactListItem.waitForDisplayed(DEFAULT_TIMEOUT);
+        // contactListItem.scrollIntoView();
+        expect(contactListItemText).toContain('Test app - Name1 Last1');
+        contactListItem.click();
+
+        const removeButton = ContactsScreen.getRemoveContactButton();
+        removeButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        // removeButton.scrollIntoView();
+        removeButton.click();
+
+        const successMessage = ContactsScreen.getSuccessMessage();
+        const successMessageText = ContactsScreen.getSuccessMessage().getText();
+        successMessage.waitForDisplayed(DEFAULT_TIMEOUT);
+        // successCard.scrollIntoView();
+        expect(successMessageText).toEqual('Removed successfully!');
+
+    });
+
+    xit('[Test, Description("2. Add contact with different number"), Priority="P2"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -97,7 +136,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("3. Find Contact by First Name"), Priority="P0"]', () => {
+    xit('[Test, Description("3. Find Contact by First Name"), Priority="P0"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -221,9 +260,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const backPreviousScreen = () => {
         const backButton = ContactsScreen.getBackButton();
         backButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        if (!backButton.isDisplayedInViewport()) {
-            backButton.scrollIntoView();
-        }
+        // if (!backButton.isDisplayedInViewport()) {
+        //     backButton.scrollIntoView();
+        // }
         backButton.click();
     };
 

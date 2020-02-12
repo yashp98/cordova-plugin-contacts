@@ -11,7 +11,7 @@ config.capabilities = [
         automationName: 'UiAutomator2',
         platformName: 'Android',
         deviceName: 'Android',
-        app: join(process.cwd(), 'apps/mabs 6.1.1.apk'), // Path to your native app
+        app: join(process.cwd(), 'apps/Contacts_Sample_App.apk'), // Path to your native app
         // appPackage: 'com.outsystemsenterprise.enmobiletst.ContactsSampleApp', // Path to your app package
         // appActivity: 'com.outsystemsenterprise.enmobiletst.ContactsSampleApp.MainActivity', // Path to your activity
         // chromedriver windows:

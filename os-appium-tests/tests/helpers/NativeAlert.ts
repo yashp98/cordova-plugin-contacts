@@ -1,4 +1,4 @@
-import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from "../Framework"
+import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../constants';
 
 const SELECTORS = {
     ANDROID: {
