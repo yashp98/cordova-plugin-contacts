@@ -1,4 +1,6 @@
+import * as AndroidUtils from '../helpers/AndroidUtils';
 import * as Context from '../helpers/Context';
+import * as IosUtils from '../helpers/IOSUtils';
 
 // APPLICATION DEFAULTS
 
@@ -224,6 +226,10 @@ export function getErrorMessage(): WebdriverIO.Element {
     return Context.getElemBySelector('#errorMessage');
 }
 
+export function getMessagePopup(): WebdriverIO.Element {
+    return Context.getElemBySelector('#feedbackMessageContainer');
+}
+
 // BOTTOM BAR
 
 export function getAddContactBottomMenu(): WebdriverIO.Element {
@@ -249,3 +255,45 @@ export const SCREENTITLES = {
     DETAIL_SCREEN: 'Contact details',
     REMOVE_SCREEN: 'Remove Contact',
 };
+
+// PICK CONTACTS: NATIVE LIST OF CONTACTS
+
+const SELECTORS = {
+    ANDROID: {
+        ContactItem: 'Test app - Name1',
+        ListContacts : 'android:id/list',
+    },
+
+    IOS: {
+        ContactItem: '',
+        ListContacts: '*//XCUIElementTypeAlert',
+        PERMISSION_ALLOW_BUTTON: '*//XCUIElementTypeButton[@name="OK"]',
+        PERMISSION_DENY_BUTTON: '*//XCUIElementTypeButton[@name="Don’t Allow"]',
+    },
+};
+
+class NativeContactList {
+
+ public static findNativeContactList(driver): WebdriverIO.Element {
+     const listSelector = driver.isAndroid ? SELECTORS.ANDROID.ListContacts : SELECTORS.IOS.ListContacts;
+     return driver.isAndroid ?
+         AndroidUtils.getElemByPartialId(listSelector, false) :
+         IosUtils.getElemByXPath(listSelector, false);
+ }
+
+ public static nativeContact(driver): WebdriverIO.Element {
+    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.ContactItem : SELECTORS.IOS.ContactItem;
+    return driver.isAndroid ?
+        AndroidUtils.getElemByContainsText(listSelector, false) :
+        IosUtils.getElemByXPath(listSelector, false);
+}
+
+ public static clickNativeContact(driver): void {
+    this.nativeContact(driver).click();
+}
+
+ public static text(driver): string {
+    return driver.getAlertText();
+}
+}
+export default NativeContactList;

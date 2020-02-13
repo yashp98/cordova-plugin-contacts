@@ -8,7 +8,7 @@ config.capabilities = [
     {
         // deviceName: 'iPhone.*',
         // The reference to the app
-        testobject_app_id: '4',
+        testobject_app_id: '5',
         // The api key that has a reference to the app-project in the TO cloud
         testobject_api_key: '25C0C7A90F1842D9B88D72B641F5C42B',
         // The name of the test for in the cloud
@@ -16,7 +16,7 @@ config.capabilities = [
         // Some default settings
         // You can find more info in the TO Appium Basic Setup section
         platformName: 'iOS',
-        platformVersion: '13',
+        platformVersion: '12',
         idleTimeout: 180,
         // testobject_cache_device: true,
         // noReset: true,
@@ -25,9 +25,13 @@ config.capabilities = [
         privateDevicesOnly: false,
         enableAnimations: false,
         autoAcceptAlerts: true,
-        maxInstances: 1
+        maxInstances: 1,
         // phoneOnly: false,
         // tabletOnly: false,
+        useNewWDA: true,
+        xcodeOrgId: 'EVSWK8BA55',
+        xcodeSigningId: 'iPhone Developer: Paulo Rosado'
+
     },
 ];
 

@@ -1,8 +1,12 @@
 import { DEFAULT_TIMEOUT } from '../constants';
-import { waitForElement } from "./Context";
+import { waitForElement } from './Context';
 
 export function getByTextSelector (val: string): string {
     return 'new UiSelector().text("' + val + '")';
+}
+
+export function getByTextContainsSelector (val: string): string {
+    return 'new UiSelector().textContains("' + val + '")';
 }
 
 export function getByPartialIdSelector (val: string): string {
@@ -23,6 +27,11 @@ export function getElemInScrollSelector (selector: string): string {
 
 export function getElemByText (text: string, throwError: boolean = true, waitTime: number = DEFAULT_TIMEOUT): WebdriverIO.Element | undefined {
     let sel = 'android=' + getByTextSelector(text);
+    return waitForElement(sel, throwError, waitTime);
+}
+
+export function getElemByContainsText (text: string, throwError: boolean = true, waitTime: number = DEFAULT_TIMEOUT): WebdriverIO.Element | undefined {
+    let sel = 'android=' + getByTextContainsSelector(text);
     return waitForElement(sel, throwError, waitTime);
 }
 

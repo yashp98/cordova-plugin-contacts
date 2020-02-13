@@ -7,7 +7,7 @@ const { config } = require('./wdio.shared.conf');
 config.capabilities = [
     {
         // The reference to the app
-        testobject_app_id: '2',
+        testobject_app_id: '4',
         // The api key that has a reference to the app-project in the TO cloud
         testobject_api_key: 'AED746D07F25481CBDAF1398DA162081',
         // Some default settings
@@ -16,7 +16,7 @@ config.capabilities = [
         idleTimeout: 180,
         maxInstances: 2,
         testobject_test_name: 'Contacts-Sample-App',
-        // deviceName: 'Samsung_Galaxy_S6_sjc_free',
+        // deviceName: 'Google Pixel 4',
         // testobject_cache_device: true,
         // noReset: true,
         orientation: 'PORTRAIT',

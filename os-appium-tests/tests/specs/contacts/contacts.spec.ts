@@ -12,6 +12,7 @@ import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
 import * as Context from '../../helpers/Context';
 import PermissionAlert from '../../helpers/PermissionAlert';
+import nativeContactList from '../../screenobjects/ContactsScreen';
 import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
@@ -31,7 +32,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("1. Add contact with all parameters"), Priority="P0"]', () => {
+    xit('[Test, Description("1. Add contact with all parameters, find test and delete"), Priority="P0"]', () => {
 
         // Enter Add Contact Screen
         const addContactScreenButton = ContactsScreen.getAddContactScreen();
@@ -59,12 +60,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         successCard.waitForDisplayed(DEFAULT_TIMEOUT);
         // successCard.scrollIntoView();
 
-        const successMessageText = ContactsScreen.getSuccessMessage().getText();
-        expect(successMessageText).toEqual('Contact successfully added.');
-
-    });
-
-    it('[Test, Description("2. Find and Remove Contact"), Priority="P0"]', () => {
+        const successMessageAddText = ContactsScreen.getSuccessMessage().getText();
+        expect(successMessageAddText).toEqual('Contact successfully added.');
 
         backToHomeScreen();
 
@@ -95,11 +92,16 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // removeButton.scrollIntoView();
         removeButton.click();
 
-        const successMessage = ContactsScreen.getSuccessMessage();
-        const successMessageText = ContactsScreen.getSuccessMessage().getText();
-        successMessage.waitForDisplayed(DEFAULT_TIMEOUT);
+        const successMessageRemove = ContactsScreen.getSuccessMessage();
+        const successMessageRemoveText = ContactsScreen.getSuccessMessage().getText();
+        successMessageRemove.waitForDisplayed(DEFAULT_TIMEOUT);
         // successCard.scrollIntoView();
-        expect(successMessageText).toEqual('Removed successfully!');
+        expect(successMessageRemoveText).toEqual('Removed successfully!');
+
+        const successPopup = ContactsScreen.getMessagePopup();
+        if (successPopup.isDisplayed()) {
+            successPopup.click();
+}
 
     });
 
@@ -116,23 +118,44 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Wait for Add Contact Screen
         waitForScreen(ContactsScreen.SCREENTITLES.ADD_CONTACT);
 
-        // Setup of the test
-        const setupContactButton = ContactsScreen.SetupContactDifferentPhone();
-        setupContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        setupContactButton.click();
+        // ______________ SETUP 1________________
+        const setupContactButton1 = ContactsScreen.SetupContactAllParameters();
+        setupContactButton1.waitForDisplayed(DEFAULT_TIMEOUT);
+        setupContactButton1.click();
 
         // Test: click to create the contact
-        const addContactButton = ContactsScreen.getAddContactButton();
-        addContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        addContactButton.click();
+        const addContactButton1 = ContactsScreen.getAddContactButton();
+        addContactButton1.waitForDisplayed(DEFAULT_TIMEOUT);
+        addContactButton1.click();
+
+        // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
+        allowPermissionIfNeeded(true);
 
         // The expected result is for the contact to be created (message text = true)
-        const successCard = ContactsScreen.getSuccessCard();
-        successCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        successCard.scrollIntoView();
+        const successCard1 = ContactsScreen.getSuccessCard();
+        successCard1.waitForDisplayed(DEFAULT_TIMEOUT);
+        // successCard.scrollIntoView();
 
-        const successMessageText = ContactsScreen.getSuccessMessage().getText();
-        expect(successMessageText).toEqual('Contact successfully added.');
+        const successMessageAddText1 = ContactsScreen.getSuccessMessage().getText();
+        expect(successMessageAddText1).toEqual('Contact successfully added.');
+
+        // ______________SETUP 2________________
+        const setupContactButton2 = ContactsScreen.SetupContactDifferentPhone();
+        setupContactButton2.waitForDisplayed(DEFAULT_TIMEOUT);
+        setupContactButton2.click();
+
+        // Test: click to create the contact
+        const addContactButton2 = ContactsScreen.getAddContactButton();
+        addContactButton2.waitForDisplayed(DEFAULT_TIMEOUT);
+        addContactButton2.click();
+
+        // The expected result is for the contact to be created (message text = true)
+        const successCard2 = ContactsScreen.getSuccessCard();
+        successCard2.waitForDisplayed(DEFAULT_TIMEOUT);
+        // successCard.scrollIntoView();
+
+        const successMessageAddText2 = ContactsScreen.getSuccessMessage().getText();
+        expect(successMessageAddText2).toEqual('Contact successfully added.');
 
     });
 
@@ -157,7 +180,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Test: click to find the contact
         const findContactButton = ContactsScreen.getFindContactButton();
         findContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        findContactButton.scrollIntoView();
+        // findContactButton.scrollIntoView();
         findContactButton.click();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
@@ -166,7 +189,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Wait for the list to be displayed and click in the first result
         const findContactResultList = ContactsScreen.getFindContactResultList();
         findContactResultList.waitForDisplayed(DEFAULT_TIMEOUT);
-        findContactResultList.scrollIntoView();
+        // findContactResultList.scrollIntoView();
         findContactResultList.click();
 
         // Validate all the information in the contact
@@ -189,7 +212,36 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     });
 
     // TODO
-    xit('[Test, Description("4. Pick Contact by First Name"), Priority="P0"]', () => {
+    it('[Test, Description("4. Pick Contact by First Name"), Priority="P0"]', () => {
+
+        // Back To Home Screen
+        backToHomeScreen();
+
+        // Enter Add Contact Screen
+        const addContactScreenButton = ContactsScreen.getAddContactScreen();
+        addContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        addContactScreenButton.click();
+
+        // Wait for Add Contact Screen
+        waitForScreen(ContactsScreen.SCREENTITLES.ADD_CONTACT);
+
+        // Setup of the test
+        const setupContactButton = ContactsScreen.SetupContactAllParameters();
+        setupContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        setupContactButton.click();
+
+        // Test: click to create the contact
+        const addContactButton = ContactsScreen.getAddContactButton();
+        addContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        addContactButton.click();
+
+        // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
+        allowPermissionIfNeeded(true);
+
+        // The expected result is for the contact to be created (message text = true)
+        const successCardAdd = ContactsScreen.getSuccessCard();
+        successCardAdd.waitForDisplayed(DEFAULT_TIMEOUT);
+        // successCard.scrollIntoView();
 
         // Back To Home Screen
         backToHomeScreen();
@@ -216,22 +268,41 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
         allowPermissionIfNeeded(true);
 
-        // Wait for the list to be displayed and click in the first result
-       /* const findContactResultList = ContactsScreen.getPickContactResultList();
-        findContactResultList.waitForDisplayed(DEFAULT_TIMEOUT);
-        findContactResultList.scrollIntoView();
-        findContactResultList.click();*/
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+
+        // const findNativeContactList = nativeContactList.findNativeContactList(browser);
+        // findNativeContactList.waitForDisplayed(DEFAULT_TIMEOUT);
+
+        // const getNativeContact = nativeContactList.nativeContact(browser);
+        // getNativeContact.waitForDisplayed(DEFAULT_TIMEOUT);
+        nativeContactList.nativeContact(browser).scrollIntoView();
+        nativeContactList.clickNativeContact(browser);
+
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
         // Validate all the information in the contact
-        /*waitForScreen(ContactsScreen.SCREENTITLES.DETAIL_SCREEN);
+        waitForScreen(ContactsScreen.SCREENTITLES.DETAIL_SCREEN);
+
         ContactsScreen.getValidateFirstName().waitForDisplayed(DEFAULT_TIMEOUT);
         expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
         expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
         expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
-        if (browser.isAndroid) {
-            expect(ContactsScreen.getValidatePhoneNumber2().getText()).toEqual('+351111111111');
-        }
-        expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');*/
+        expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
+
+        const removeButton = ContactsScreen.getRemoveContactButton();
+        removeButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        removeButton.click();
+
+        const successCardRemove = ContactsScreen.getSuccessCard();
+        const successCardRemoveText = ContactsScreen.getSuccessCard().getText();
+        successCardRemove.waitForDisplayed(DEFAULT_TIMEOUT);
+        expect (successCardRemoveText).toContain('Removed successfully!');
+
+        const successPopup = ContactsScreen.getMessagePopup();
+        if (successPopup.isDisplayed()) {
+            successPopup.click();
+}
+
     });
 
     // xit('[Test, Description("5. Remove contact"), Priority="P0"]', () => {
