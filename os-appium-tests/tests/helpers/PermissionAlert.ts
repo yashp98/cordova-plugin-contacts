@@ -8,13 +8,14 @@ const SELECTORS = {
         // PERMISSION_DIALOG : '*//android.widget.LinearLayout[@resource-id="com.google.android.permissioncontroller"]',
         // PERMISSION_ALLOW_BUTTON : '*//android.widget.Button[@resource-id="com.android.packageinstaller:id/permission_allow_button"]',
         PERMISSION_ALLOW_BUTTON : 'id/permission_allow_button',
-        PERMISSION_DENY_BUTTON: '*//android.widget.Button[@resource-id="com.android.packageinstaller:id/permission_deny_button"]',
+        PERMISSION_DENY_BUTTON: 'id/permission_deny_button',
     },
 
     IOS: {
-        PERMISSION_DIALOG: '*//XCUIElementTypeAlert',
-        PERMISSION_ALLOW_BUTTON: '*//XCUIElementTypeButton[@name="OK"]',
+        PERMISSION_ALLOW_BUTTON: '*//XCUIElementTypeButton[@name="Allow"]',
         PERMISSION_DENY_BUTTON: '*//XCUIElementTypeButton[@name="Don’t Allow"]',
+        PERMISSION_DIALOG: '*//XCUIElementTypeAlert',
+        PERMISSION_OK_BUTTON: '*//XCUIElementTypeButton[@name="OK"]',
     },
 };
 
@@ -41,7 +42,6 @@ class PermissionAlert {
 
     /**
      * Allow or deny a permission request
-     * 
      * @param {boolean} allow
      */
     // public static allowPermission(allow = true, driver): void {

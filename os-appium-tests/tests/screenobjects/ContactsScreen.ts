@@ -233,15 +233,23 @@ export function getMessagePopup(): WebdriverIO.Element {
 // BOTTOM BAR
 
 export function getAddContactBottomMenu(): WebdriverIO.Element {
-    return Context.getElemBySelector('#b4-AddContactBottomBar');
+    return Context.getElemBySelector('#b16-AddContactBottomBar');
 }
 
 export function getFindContactBottomMenu(): WebdriverIO.Element {
-    return Context.getElemBySelector('#b4-FindContactBottomBar');
+    return Context.getElemBySelector('#b16-FindContactBottomBar');
 }
 
 export function getPickContactBottomMenu(): WebdriverIO.Element {
-    return Context.getElemBySelector('#b4-PickContactBottomBar');
+    return Context.getElemBySelector('#b16-PickContactBottomBar');
+}
+
+export function getRemoveContactBottomMenu(): WebdriverIO.Element {
+    return Context.getElemBySelector('#b16-RemoveContactBottomBar');
+}
+
+export function getHomescreenBottomMenu(): WebdriverIO.Element {
+    return Context.getElemBySelector('#b16-HomescreenBottomBar');
 }
 
 // SCREEN NAMES
@@ -261,14 +269,20 @@ export const SCREENTITLES = {
 const SELECTORS = {
     ANDROID: {
         ContactItem: 'Test app - Name1',
-        ListContacts : 'android:id/list',
+        ListContacts : 'id/toolbar',
+        SearchInputBox : 'id/search_view',
+        SearchIcon : 'id/menu_search',
     },
 
     IOS: {
-        ContactItem: '',
-        ListContacts: '*//XCUIElementTypeAlert',
+        ContactItem: 'Test app - Name1 Last1',
+        ListContacts: 'Contacts',
+        // LABEL: Contacts (header)
+        // text: Test app - Name1 Last1
         PERMISSION_ALLOW_BUTTON: '*//XCUIElementTypeButton[@name="OK"]',
         PERMISSION_DENY_BUTTON: '*//XCUIElementTypeButton[@name="Don’t Allow"]',
+        SearchInputBox : '',
+        SearchIcon : '',
     },
 };
 
@@ -278,18 +292,39 @@ class NativeContactList {
      const listSelector = driver.isAndroid ? SELECTORS.ANDROID.ListContacts : SELECTORS.IOS.ListContacts;
      return driver.isAndroid ?
          AndroidUtils.getElemByPartialId(listSelector, false) :
-         IosUtils.getElemByXPath(listSelector, false);
+         IosUtils.getElemByLabel(listSelector, false);
  }
 
  public static nativeContact(driver): WebdriverIO.Element {
     const listSelector = driver.isAndroid ? SELECTORS.ANDROID.ContactItem : SELECTORS.IOS.ContactItem;
     return driver.isAndroid ?
         AndroidUtils.getElemByContainsText(listSelector, false) :
-        IosUtils.getElemByXPath(listSelector, false);
+        IosUtils.getElemByLabel(listSelector, false);
 }
 
  public static clickNativeContact(driver): void {
     this.nativeContact(driver).click();
+}
+
+public static searchIcon(driver): WebdriverIO.Element {
+    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.SearchIcon : SELECTORS.IOS.SearchIcon;
+    return driver.isAndroid ?
+        AndroidUtils.getElemByPartialId(listSelector, false) :
+        IosUtils.getElemByLabel(listSelector, false);
+}
+
+public static searchInputBox(driver): WebdriverIO.Element {
+    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.SearchInputBox : SELECTORS.IOS.SearchInputBox;
+    return driver.isAndroid ?
+        AndroidUtils.getElemByPartialId(listSelector, false) :
+        IosUtils.getElemByLabel(listSelector, false);
+}
+
+public static writeSearchIcon(driver): void {
+    // this.searchIcon(driver).waitForDisplayed();
+    this.searchIcon(driver).click();
+    this.searchInputBox(driver).click();
+    this.searchInputBox(driver).setValue('Test app-');
 }
 
  public static text(driver): string {

@@ -18,9 +18,6 @@ import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     beforeAll(() => {
-
-        browser.reset();
-
         // Wait for webview to load
         Context.waitForWebViewContextLoaded();
 
@@ -30,10 +27,20 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Wait for Home Screen
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+        if (browser.isIOS) {
+            allowPermissionIfNeeded(true);
+        }
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+
     });
 
     it('[Test, Description("1. Allow permission"), Priority="P0"]', () => {
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+
+        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
         const pickContactScreenButton = ContactsScreen.getPickContactScreen();
         pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
@@ -52,15 +59,20 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(PermissionAlert);
         PermissionAlert.allowPermission(true, browser);
 
-        expect(nativeContactList.nativeContact(browser).isDisplayed());
+        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
+        browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
-        browser.reset();
+        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
     });
 
     it('[Test, Description("2. Deny permission"), Priority="P0"]', () => {
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+
+        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
         const pickContactScreenButton = ContactsScreen.getPickContactScreen();
         pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
@@ -85,7 +97,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(messagePopUp);
         expect(messagePopUpText).toContain('ErrorMessage: Could not pick contact');
 
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
     });
 
@@ -105,14 +119,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         const successMessageAddText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageAddText).toEqual('Contact successfully added.');
 
-        const successPopupAdd = ContactsScreen.getMessagePopup();
-        if (successPopupAdd.isDisplayed()) {
-            successPopupAdd.click();
-        }
-
         backToHomeScreen();
 
-        removeContact();
+        removeContact(true);
 
         const successMessageRemove = ContactsScreen.getSuccessMessage();
         const successMessageRemoveText = ContactsScreen.getSuccessMessage().getText();
@@ -121,68 +130,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         expect(successMessageRemoveText).toEqual('Removed successfully!');
 
-        const successPopupRemove = ContactsScreen.getMessagePopup();
-        if (successPopupRemove.isDisplayed()) {
-            successPopupRemove.click();
-}
-
     });
 
-    xit('[Test, Description("2. Add contact with different number"), Priority="P2"]', () => {
-
-        // Back To Home Screen
-        backToHomeScreen();
-
-        // Enter Add Contact Screen
-        const addContactScreenButton = ContactsScreen.getAddContactScreen();
-        addContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        addContactScreenButton.click();
-
-        // Wait for Add Contact Screen
-        waitForScreen(ContactsScreen.SCREENTITLES.ADD_CONTACT);
-
-        // ______________ SETUP 1________________
-        const setupContactButton1 = ContactsScreen.SetupContactAllParameters();
-        setupContactButton1.waitForDisplayed(DEFAULT_TIMEOUT);
-        setupContactButton1.click();
-
-        // Test: click to create the contact
-        const addContactButton1 = ContactsScreen.getAddContactButton();
-        addContactButton1.waitForDisplayed(DEFAULT_TIMEOUT);
-        addContactButton1.click();
-
-        // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowPermissionIfNeeded(true);
-
-        // The expected result is for the contact to be created (message text = true)
-        const successCard1 = ContactsScreen.getSuccessCard();
-        successCard1.waitForDisplayed(DEFAULT_TIMEOUT);
-        // successCard.scrollIntoView();
-
-        const successMessageAddText1 = ContactsScreen.getSuccessMessage().getText();
-        expect(successMessageAddText1).toEqual('Contact successfully added.');
-
-        // ______________SETUP 2________________
-        const setupContactButton2 = ContactsScreen.SetupContactDifferentPhone();
-        setupContactButton2.waitForDisplayed(DEFAULT_TIMEOUT);
-        setupContactButton2.click();
-
-        // Test: click to create the contact
-        const addContactButton2 = ContactsScreen.getAddContactButton();
-        addContactButton2.waitForDisplayed(DEFAULT_TIMEOUT);
-        addContactButton2.click();
-
-        // The expected result is for the contact to be created (message text = true)
-        const successCard2 = ContactsScreen.getSuccessCard();
-        successCard2.waitForDisplayed(DEFAULT_TIMEOUT);
-        // successCard.scrollIntoView();
-
-        const successMessageAddText2 = ContactsScreen.getSuccessMessage().getText();
-        expect(successMessageAddText2).toEqual('Contact successfully added.');
-
-    });
-
-    it('[Test, Description("3. Find Contact"), Priority="P0"]', () => {
+    it('[Test, Description("4. Find Contact"), Priority="P0"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -256,13 +206,13 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         successCardRemove.waitForDisplayed(DEFAULT_TIMEOUT);
         expect (successCardRemoveText).toContain('Removed successfully!');
 
-        const successPopup = ContactsScreen.getMessagePopup();
-        if (successPopup.isDisplayed()) {
-            successPopup.click();
-}
+        const backButton = ContactsScreen.getBackButton();
+        backButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        backButton.click();
+
     });
 
-    it('[Test, Description("4. Pick Contact"), Priority="P0"]', () => {
+    it('[Test, Description("5. Pick Contact"), Priority="P0"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -305,9 +255,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // const findNativeContactList = nativeContactList.findNativeContactList(browser);
         // findNativeContactList.waitForDisplayed(DEFAULT_TIMEOUT);
 
-        // const getNativeContact = nativeContactList.nativeContact(browser);
-        // getNativeContact.waitForDisplayed(DEFAULT_TIMEOUT);
-        nativeContactList.nativeContact(browser).scrollIntoView();
+        // nativeContactList.writeSearchIcon(browser);
         nativeContactList.clickNativeContact(browser);
 
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
@@ -333,16 +281,15 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         successCardRemove.waitForDisplayed(DEFAULT_TIMEOUT);
         expect (successCardRemoveText).toContain('Removed successfully!');
 
-        const successPopup = ContactsScreen.getMessagePopup();
-        if (successPopup.isDisplayed()) {
-            successPopup.click();
-}
-
+        const backButton = ContactsScreen.getBackButton();
+        backButton.waitForDisplayed(DEFAULT_TIMEOUT);
+        backButton.click();
     });
 
     /**
      * UTILS
      */
+
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
@@ -436,6 +383,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     const backToHomeScreen = () => {
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+        // const successPopup = ContactsScreen.getMessagePopup();
+        // if (successPopup.isDisplayed()) {
+        //     successPopup.click();
+        // }
+
         const menuButton = ContactsScreen.getAppMenu();
         menuButton.waitForDisplayed(DEFAULT_TIMEOUT);
         // if (!menuButton.isDisplayedInViewport()) {
