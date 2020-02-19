@@ -32,6 +32,20 @@ export function waitForWebViewContextLoaded(): void {
     );
 }
 
+export function waitForNativeContextLoaded(): void {
+    browser.waitUntil(
+        () => {
+            const currentContexts = this.getCurrentContexts();
+            const result = currentContexts.length > 1 &&
+                currentContexts.find((context) => context.toLowerCase().includes(CONTEXT_REF.NATIVE)) != null;
+            return result;
+        },
+        DEFAULT_TIMEOUT,
+        'Native context not loaded',
+        DEFAULT_TIMEOUT_INTERVAL
+    );
+}
+
 /**
  * Switch to native or webview context
  *

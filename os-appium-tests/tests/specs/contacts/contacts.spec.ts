@@ -19,6 +19,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     beforeAll(() => {
         // Wait for webview to load
+        Context.waitForNativeContextLoaded();
         Context.waitForWebViewContextLoaded();
 
         // Switch the context to WEBVIEW
@@ -28,14 +29,18 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+
         if (browser.isIOS) {
             allowPermissionIfNeeded(true);
         }
+
+        // Switch the context to WEBVIEW
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
     });
 
-    it('[Test, Description("1. Allow permission"), Priority="P0"]', () => {
+    it('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
+
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
@@ -59,7 +64,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(PermissionAlert);
         PermissionAlert.allowPermission(true, browser);
 
-        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
+        expect(nativeContactList.findNativeContactList(browser)); // .isDisplayed());
+
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
@@ -67,7 +73,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("2. Deny permission"), Priority="P0"]', () => {
+    it('[Test, Description("2. Deny permission"), Priority="P0", ID="CO0004"]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
@@ -103,7 +109,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0"]', () => {
+    it('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0", ID="CO0005"]', () => {
         backToHomeScreen();
 
         addContact();
@@ -132,7 +138,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("4. Find Contact"), Priority="P0"]', () => {
+    it('[Test, Description("4. Find Contact"), Priority="P0", ID="CO0012"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -212,7 +218,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("5. Pick Contact"), Priority="P0"]', () => {
+    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -252,10 +258,14 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
+        // **
         // const findNativeContactList = nativeContactList.findNativeContactList(browser);
         // findNativeContactList.waitForDisplayed(DEFAULT_TIMEOUT);
 
         // nativeContactList.writeSearchIcon(browser);
+
+        // nativeContactList.clickFirstNativeContact(browser);
+        // **
         nativeContactList.clickNativeContact(browser);
 
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);

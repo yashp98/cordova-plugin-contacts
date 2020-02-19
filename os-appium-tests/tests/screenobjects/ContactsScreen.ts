@@ -272,6 +272,7 @@ const SELECTORS = {
         ListContacts : 'id/toolbar',
         SearchInputBox : 'id/search_view',
         SearchIcon : 'id/menu_search',
+        FirstContactList : 'android.view.ViewGroup',
     },
 
     IOS: {
@@ -283,6 +284,7 @@ const SELECTORS = {
         PERMISSION_DENY_BUTTON: '*//XCUIElementTypeButton[@name="Don’t Allow"]',
         SearchInputBox : '',
         SearchIcon : '',
+        FirstContactList : '',
     },
 };
 
@@ -325,6 +327,17 @@ public static writeSearchIcon(driver): void {
     this.searchIcon(driver).click();
     this.searchInputBox(driver).click();
     this.searchInputBox(driver).setValue('Test app-');
+}
+
+public static firstNativeContact(driver): WebdriverIO.Element {
+    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.FirstContactList : SELECTORS.IOS.FirstContactList;
+    return driver.isAndroid ?
+        AndroidUtils.getElemByClassName(listSelector, false) :
+        IosUtils.getElemByLabel(listSelector, false);
+}
+
+public static clickFirstNativeContact(driver): void {
+    this.firstNativeContact(driver).click();
 }
 
  public static text(driver): string {

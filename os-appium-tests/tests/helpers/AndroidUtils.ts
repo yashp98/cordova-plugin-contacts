@@ -17,7 +17,11 @@ export function getByIdSelector (val: string): string {
     return 'new UiSelector().resourceId("' + val + '")';
 }
 
-export function getByClassSelector (val: string): string {
+export function getByClassNameSelector (val: string): string {
+    return 'new UiSelector().className("' + val + '")';
+}
+
+export function getByClassNameMatchesSelector (val: string): string {
     return 'new UiSelector().classNameMatches("' + val + '")';
 }
 
@@ -45,8 +49,13 @@ export function getElemById (id: string, throwError: boolean = true, waitTime: n
     return waitForElement(sel, throwError, waitTime);
 }
 
-export function getElemByClass (className: string, throwError: boolean = true, waitTime: number = DEFAULT_TIMEOUT): WebdriverIO.Element | undefined {
-    let sel = 'android=' + getByClassSelector(className);
+export function getElemByClassNameMatches (className: string, throwError: boolean = true, waitTime: number = DEFAULT_TIMEOUT): WebdriverIO.Element | undefined {
+    let sel = 'android=' + getByClassNameMatchesSelector(className);
+    return waitForElement(sel, throwError, waitTime);
+}
+
+export function getElemByClassName (className: string, throwError: boolean = true, waitTime: number = DEFAULT_TIMEOUT): WebdriverIO.Element | undefined {
+    let sel = 'android=' + getByClassNameSelector(className);
     return waitForElement(sel, throwError, waitTime);
 }
 
@@ -56,7 +65,7 @@ export function getElemInScroll (selector: string, throwError: boolean = true, w
 }
 
 export function getPermissionAlertAllow (throwError: boolean = true, waitTime: number = DEFAULT_TIMEOUT): WebdriverIO.Element | undefined {
-    //TODO Review if selector works for other android versions
+    // TODO Review if selector works for other android versions
     const sel = 'android=' + getByPartialIdSelector("permission_allow_button");
     return waitForElement(sel, throwError, waitTime);
 }
