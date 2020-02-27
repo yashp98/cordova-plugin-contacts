@@ -123,13 +123,13 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    xit('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0", ID="CO0005"]', () => {
+    it('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0", ID="CO0005"]', () => {
         backToHomeScreen();
 
         addContact();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowPermissionIfNeeded(true);
+        allowOkPermissionIfNeeded(true);
 
         // The expected result is for the contact to be created (message text = true)
         const successAddCard = ContactsScreen.getSuccessCard();
@@ -152,7 +152,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    xit('[Test, Description("4. Find Contact"), Priority="P0", ID="CO0012"]', () => {
+    it('[Test, Description("4. Find Contact"), Priority="P0", ID="CO0012"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -160,7 +160,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         addContact();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowPermissionIfNeeded(true);
+        allowOkPermissionIfNeeded(true);
 
         // The expected result is for the contact to be created (message text = true)
         const successAddCard = ContactsScreen.getSuccessCard();
@@ -192,7 +192,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         findContactButton.click();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowPermissionIfNeeded(true);
+        allowOkPermissionIfNeeded(true);
 
         // Wait for the list to be displayed and click in the first result
         const findContactResultList = ContactsScreen.getFindContactResultList();
@@ -232,7 +232,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    xit('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
+    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
         // Back To Home Screen
         backToHomeScreen();
 
