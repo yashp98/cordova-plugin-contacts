@@ -11,11 +11,10 @@ For example, new contacts created should have a different name than the already 
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
 import * as Context from '../../helpers/Context';
-import NativeAlert from '../../helpers/NativeAlert';
-import PermissionAlert from '../../helpers/PermissionAlert';
-import nativeContactList from '../../screenobjects/ContactsScreen';
-import * as ContactsScreen from '../../screenobjects/ContactsScreen';
 import Gestures from '../../helpers/Gestures';
+import PermissionAlert from '../../helpers/PermissionAlert';
+// import nativeContactList from '../../screenobjects/ContactsScreen';
+import nativeContactList, * as ContactsScreen from '../../screenobjects/ContactsScreen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
@@ -32,49 +31,54 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Wait for Home Screen
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
+        // Switch the context to NATIVE
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
         if (browser.isIOS) {
+            browser.pause(3000);
             allowPermissionIfNeeded(true);
-            // NativeAlert.pressButtonAllow('Allow', browser);
-            // PermissionAlert.allowPermission(true, browser);
         }
 
-        // Switch the context to WEBVIEW
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
     });
 
-    xit('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
+    it('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
 
+        // Reset the device
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
+        // Wait for homepage
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
+        // Go to Pick Contact screen
         const pickContactScreenButton = ContactsScreen.getPickContactScreen();
         pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
         pickContactScreenButton.click();
 
-        // Go to Pick Contact screen
+        // Wait for Pick Contact Screen
         waitForScreen(ContactsScreen.SCREENTITLES.PICK_CONTACT);
 
+        // Wait for the button "Pick" to appear and click on it
         const pickContactButton = ContactsScreen.getPickContactButton();
         pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
-        // Click Allow
-        allowOkPermissionIfNeeded(true);
-
+        // Click Allow/Ok in permission
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+        const permissionAlert = PermissionAlert.getPermissionDialog(browser);
+        permissionAlert.waitForDisplayed(DEFAULT_TIMEOUT);
+        expect(permissionAlert.isDisplayed());
+        PermissionAlert.okPermission(true, browser);
 
+        // Expect device to open the native Contacts Screen
         expect(nativeContactList.findNativeContactList(browser).isDisplayed());
 
+        // Reset application and go back to the homepage
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
     });
@@ -98,17 +102,24 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
-        // Click Deny
-        allowOkPermissionIfNeeded(false);
+        // Click Deny in permission
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+        const permissionAlert = PermissionAlert.getPermissionDialog(browser);
+        permissionAlert.waitForDisplayed(DEFAULT_TIMEOUT);
+        expect(permissionAlert.isDisplayed());
+        PermissionAlert.okPermission(false, browser);
 
+        // Check if error message is received
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
         const messagePopUp = ContactsScreen.getMessagePopup();
-        // const messagePopUpText = ContactsScreen.getMessagePopup().getText();
         expect(messagePopUp.isDisplayed());
         expect(messagePopUp.getText()).toContain('ErrorMessage: Could not pick contact');
 
+        // Reset application and go back to the homepage
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
     });
 
@@ -307,20 +318,19 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown2(browser)) {
+        if (PermissionAlert.isShown(browser) === true) {
             PermissionAlert.allowPermission(allow, browser);
             // PermissionAlert.waitForIsShown(false, browser);
+            console.log('Ines: clicou');
         }
-        console.log('ines1');
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
 
     const allowOkPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown2(browser)) {
-            PermissionAlert.OkPermission(allow, browser);
-            console.log('ines2');
+        if (PermissionAlert.isShown(browser)) {
+            PermissionAlert.okPermission(allow, browser);
             // PermissionAlert.waitForIsShown(false, browser);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);

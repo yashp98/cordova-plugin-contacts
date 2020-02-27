@@ -11,7 +11,7 @@ const SELECTORS = {
 
     IOS: {
         PERMISSION_ALLOW_BUTTON: '~Allow', // '*//XCUIElementTypeButton[@name="Allow"]',
-        PERMISSION_DENY_BUTTON: '~Don\'t Allow',
+        PERMISSION_DENY_BUTTON: "~Don’t Allow",
         // PERMISSION_DIALOG: '*//XCUIElementTypeAlert',
         PERMISSION_OK_BUTTON: '~OK', // '*//XCUIElementTypeButton[@name="OK"]',
     },
@@ -22,9 +22,6 @@ class PermissionAlert {
     /**
      * Wait for the alert to exist
      */
-    // public static waitForIsShown(isShown = true, driver): void {
-    //     this.getPermissionButton(true, driver).waitForExist(DEFAULT_TIMEOUT, !isShown);
-    // }
 
     public static waitForIsShown(isShown = true, driver): void {
         if (driver.isAndroid) {
@@ -40,48 +37,29 @@ class PermissionAlert {
 
     /**
      * Check if exists the alert
+     * It checks wether the DENY button (for both iOS and Android) is there or not
+     * If it's there, returns true if displayed
+     * If it's not there, returns false
      */
     public static isShown(driver): boolean {
-        const permissionButton = this.getPermissionDialog(driver);
-        if (permissionButton === undefined) {
-            return false;
-        } else {
-            return permissionButton.isDisplayed();
-        }
-    }
-    // public static isShown(driver): boolean {
-    //     if (driver.isAndroid) {
-    //         return $(SELECTORS.ANDROID.PERMISSION_DENY_BUTTON).isDisplayed();
-    //     } else {
-    //         return $(SELECTORS.IOS.PERMISSION_DENY_BUTTON).isDisplayed();
-    //     }
-    // }
-
-    // ********************************TEST**********************************************
-    public static isShown2(driver): boolean {
-        console.log('Ines: is shown = begin');
         const selector =  driver.isAndroid ?
             AndroidUtils.getElemByPartialId(SELECTORS.ANDROID.PERMISSION_DENY_BUTTON, false) :
             $(SELECTORS.IOS.PERMISSION_DENY_BUTTON);
         if (selector === undefined) {
+            console.log('Ines: undefined');
             return false;
-            console.log('Ines: is shown = undefined');
-            console.log(selector);
         } else {
-            return selector.isDisplayed();
-            console.log('Ines: is shown is not undefined');
-            console.log(selector);
+            console.log('Ines: permission alert found');
+            console.log(selector.isDisplayed());
+            return true;
         }
     }
-
-    // ******************************************************************************
 
     /**
      * Allow or deny a permission request
      * @param {boolean} allow
      */
 
-    // Check wether the deny button is there or not
     // We are checking for the DENY button because the allow button can be OK/ALLOW in iOS, so the deny button is more accurate
     public static getPermissionDialog(driver): WebdriverIO.Element {
         const selector = driver.isAndroid ? SELECTORS.ANDROID.PERMISSION_DENY_BUTTON : SELECTORS.IOS.PERMISSION_DENY_BUTTON;
@@ -91,6 +69,8 @@ class PermissionAlert {
             // IosUtils.getElemByLabel(buttonSelector, false);
     }
 
+    // There are two different permission functions: allowPermission and okPermission
+    // This happens because iOS has two different permissions: ones with "OK" button, others with "ALLOW" button
     public static allowPermission(allow = true, driver): void {
        this.getPermissionButton(allow, driver).click();
     }
@@ -104,7 +84,7 @@ class PermissionAlert {
             // IosUtils.getElemByXPath(buttonSelector, false);
     }
 
-    public static OkPermission(allow = true, driver): void {
+    public static okPermission(allow = true, driver): void {
         this.getPermissionOkButton(allow, driver).click();
      }
 
