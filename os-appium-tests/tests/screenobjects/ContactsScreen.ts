@@ -1,5 +1,6 @@
 import * as AndroidUtils from '../helpers/AndroidUtils';
 import * as Context from '../helpers/Context';
+import Gestures from '../helpers/Gestures';
 import * as IosUtils from '../helpers/IOSUtils';
 
 // APPLICATION DEFAULTS
@@ -255,12 +256,11 @@ export function getHomescreenBottomMenu(): WebdriverIO.Element {
 // SCREEN NAMES
 
 export const SCREENTITLES = {
-    HOME_SCREEN: 'Contacts plugin',
-    // tslint:disable-next-line: object-literal-sort-keys
     ADD_CONTACT: 'Add',
-    FIND_CONTACT: 'Find',
-    PICK_CONTACT: 'Pick',
     DETAIL_SCREEN: 'Contact details',
+    FIND_CONTACT: 'Find',
+    HOME_SCREEN: 'Contacts plugin',
+    PICK_CONTACT: 'Pick',
     REMOVE_SCREEN: 'Remove Contact',
 };
 
@@ -268,76 +268,45 @@ export const SCREENTITLES = {
 
 const SELECTORS = {
     ANDROID: {
-        ContactItem: 'Test app - Name1',
-        ListContacts : 'id/toolbar',
-        SearchInputBox : 'id/search_view',
-        SearchIcon : 'id/menu_search',
-        FirstContactList : 'android.view.ViewGroup',
+        CONTACTS_ITEM: 'Test app - Name1',
+        CONTACTS_LIST: '~Navigate up',
     },
 
     IOS: {
-        ContactItem: 'Test app - Name1 Last1',
-        ListContacts: 'Contacts',
-        // LABEL: Contacts (header)
-        // text: Test app - Name1 Last1
-        PERMISSION_ALLOW_BUTTON: '*//XCUIElementTypeButton[@name="OK"]',
-        PERMISSION_DENY_BUTTON: '*//XCUIElementTypeButton[@name="Don’t Allow"]',
-        SearchInputBox : '',
-        SearchIcon : '',
-        FirstContactList : '',
+        CONTACTS_ITEM: '*//XCUIElementTypeStaticText[@name="Test app - Name1 Last1"]',
+        CONTACTS_LIST: '*//XCUIElementTypeTable[@name="ContactsListView"]',
     },
 };
 
 class NativeContactList {
 
  public static findNativeContactList(driver): WebdriverIO.Element {
-     const listSelector = driver.isAndroid ? SELECTORS.ANDROID.ListContacts : SELECTORS.IOS.ListContacts;
+     const listSelector = driver.isAndroid ? SELECTORS.ANDROID.CONTACTS_LIST : SELECTORS.IOS.CONTACTS_LIST;
      return driver.isAndroid ?
-         AndroidUtils.getElemByPartialId(listSelector, false) :
-         IosUtils.getElemByLabel(listSelector, false);
+         $(listSelector) :
+         IosUtils.getElemByXPath(listSelector, false);
  }
 
  public static nativeContact(driver): WebdriverIO.Element {
-    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.ContactItem : SELECTORS.IOS.ContactItem;
-    return driver.isAndroid ?
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
+
+    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.CONTACTS_ITEM : SELECTORS.IOS.CONTACTS_ITEM;
+
+    let element = driver.isAndroid ?
+    AndroidUtils.getElemByContainsText(listSelector, false) :
+    IosUtils.getElemByXPath(listSelector, false);
+
+    for (let index = 0; index < 10 && element === undefined; index++) {
+        Gestures.swipeUp(0.90, browser);
+        element = driver.isAndroid ?
         AndroidUtils.getElemByContainsText(listSelector, false) :
-        IosUtils.getElemByLabel(listSelector, false);
+        IosUtils.getElemByXPath(listSelector, false);
+    }
+    return element;
 }
 
  public static clickNativeContact(driver): void {
     this.nativeContact(driver).click();
-}
-
-public static searchIcon(driver): WebdriverIO.Element {
-    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.SearchIcon : SELECTORS.IOS.SearchIcon;
-    return driver.isAndroid ?
-        AndroidUtils.getElemByPartialId(listSelector, false) :
-        IosUtils.getElemByLabel(listSelector, false);
-}
-
-public static searchInputBox(driver): WebdriverIO.Element {
-    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.SearchInputBox : SELECTORS.IOS.SearchInputBox;
-    return driver.isAndroid ?
-        AndroidUtils.getElemByPartialId(listSelector, false) :
-        IosUtils.getElemByLabel(listSelector, false);
-}
-
-public static writeSearchIcon(driver): void {
-    // this.searchIcon(driver).waitForDisplayed();
-    this.searchIcon(driver).click();
-    this.searchInputBox(driver).click();
-    this.searchInputBox(driver).setValue('Test app-');
-}
-
-public static firstNativeContact(driver): WebdriverIO.Element {
-    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.FirstContactList : SELECTORS.IOS.FirstContactList;
-    return driver.isAndroid ?
-        AndroidUtils.getElemByClassName(listSelector, false) :
-        IosUtils.getElemByLabel(listSelector, false);
-}
-
-public static clickFirstNativeContact(driver): void {
-    this.firstNativeContact(driver).click();
 }
 
  public static text(driver): string {

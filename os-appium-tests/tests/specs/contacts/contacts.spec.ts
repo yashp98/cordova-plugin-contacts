@@ -11,11 +11,15 @@ For example, new contacts created should have a different name than the already 
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
 import * as Context from '../../helpers/Context';
+import NativeAlert from '../../helpers/NativeAlert';
 import PermissionAlert from '../../helpers/PermissionAlert';
 import nativeContactList from '../../screenobjects/ContactsScreen';
 import * as ContactsScreen from '../../screenobjects/ContactsScreen';
+import Gestures from '../../helpers/Gestures';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
+
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
 
     beforeAll(() => {
         // Wait for webview to load
@@ -32,6 +36,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         if (browser.isIOS) {
             allowPermissionIfNeeded(true);
+            // NativeAlert.pressButtonAllow('Allow', browser);
+            // PermissionAlert.allowPermission(true, browser);
         }
 
         // Switch the context to WEBVIEW
@@ -39,7 +45,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
+    xit('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
 
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
@@ -60,11 +66,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         pickContactButton.click();
 
         // Click Allow
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        expect(PermissionAlert);
-        PermissionAlert.allowPermission(true, browser);
+        allowOkPermissionIfNeeded(true);
 
-        expect(nativeContactList.findNativeContactList(browser)); // .isDisplayed());
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+
+        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
 
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
@@ -92,16 +98,13 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
-        // Click Allow
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        expect(PermissionAlert);
-        PermissionAlert.allowPermission(false, browser);
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+        // Click Deny
+        allowOkPermissionIfNeeded(false);
 
         const messagePopUp = ContactsScreen.getMessagePopup();
-        const messagePopUpText = ContactsScreen.getMessagePopup().getText();
-        expect(messagePopUp);
-        expect(messagePopUpText).toContain('ErrorMessage: Could not pick contact');
+        // const messagePopUpText = ContactsScreen.getMessagePopup().getText();
+        expect(messagePopUp.isDisplayed());
+        expect(messagePopUp.getText()).toContain('ErrorMessage: Could not pick contact');
 
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
@@ -109,7 +112,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0", ID="CO0005"]', () => {
+    xit('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0", ID="CO0005"]', () => {
         backToHomeScreen();
 
         addContact();
@@ -138,7 +141,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("4. Find Contact"), Priority="P0", ID="CO0012"]', () => {
+    xit('[Test, Description("4. Find Contact"), Priority="P0", ID="CO0012"]', () => {
 
         // Back To Home Screen
         backToHomeScreen();
@@ -218,15 +221,19 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
-
+    xit('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
         // Back To Home Screen
         backToHomeScreen();
 
         addContact();
 
+        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowPermissionIfNeeded(true);
+        allowOkPermissionIfNeeded(true);
+        // NativeAlert.pressButton('OK', browser);
+        // PermissionAlert.OkPermission(true, browser);
+        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
         // The expected result is for the contact to be created (message text = true)
         const successAddCard = ContactsScreen.getSuccessCard();
@@ -253,19 +260,16 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
-        // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowPermissionIfNeeded(true);
+        allowOkPermissionIfNeeded(true);
 
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        // **
-        // const findNativeContactList = nativeContactList.findNativeContactList(browser);
-        // findNativeContactList.waitForDisplayed(DEFAULT_TIMEOUT);
+        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
 
-        // nativeContactList.writeSearchIcon(browser);
+        // console.log('ines_findNativeContactList');
+        // console.log(nativeContactList.findNativeContactList(browser));
+        // console.log(nativeContactList.nativeContact(browser));
 
-        // nativeContactList.clickFirstNativeContact(browser);
-        // **
         nativeContactList.clickNativeContact(browser);
 
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
@@ -303,8 +307,20 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown(browser)) {
+        if (PermissionAlert.isShown2(browser)) {
             PermissionAlert.allowPermission(allow, browser);
+            // PermissionAlert.waitForIsShown(false, browser);
+        }
+        console.log('ines1');
+        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+    };
+
+    const allowOkPermissionIfNeeded = (allow: boolean) => {
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+
+        if (PermissionAlert.isShown2(browser)) {
+            PermissionAlert.OkPermission(allow, browser);
+            console.log('ines2');
             // PermissionAlert.waitForIsShown(false, browser);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
