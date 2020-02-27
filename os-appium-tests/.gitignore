@@ -40,6 +40,7 @@ node_modules/
 jspm_packages/
 os-appium-tests/allure-results/
 allure-results
+tests/error_assertions/
 
 # TypeScript v1 declaration files
 typings/
