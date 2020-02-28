@@ -5,6 +5,9 @@ exports.config = {
     // ============
     specs: [
         './tests/specs/**/*.*spec.ts'
+        // './tests/specs/contacts/contacts.spec.ts'
+        // './tests/specs/contacts/allowPermission.spec.ts'
+        // './tests/specs/contacts/denyPermission.spec.ts'
     ],
 
     // ====================

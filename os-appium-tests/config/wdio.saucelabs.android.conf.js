@@ -6,27 +6,29 @@ const { config } = require('./wdio.shared.conf');
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
 config.capabilities = [
     {
-        // The reference to the app
-        testobject_app_id: '5',
-        // The api key that has a reference to the app-project in the TO cloud
+        // Saucelabs configurations
+        // ID of the application version and API KEY of the application
+        testobject_app_id: '',
         testobject_api_key: '',
+
         // Some default settings
         platformName: 'Android',
-        platformVersion: '6',
+        platformVersion: '10',
         idleTimeout: 180,
         maxInstances: 2,
         testobject_test_name: 'Contacts-Sample-App',
-        // deviceName: 'Google Pixel 4',
-        // testobject_cache_device: true,
-        // noReset: true,
+        noReset: false,
+        fullReset: true,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
-        // phoneOnly: false,
-        // tabletOnly: false,
         privateDevicesOnly: false,
         enableAnimations: false,
         autoAcceptAlerts: false,
         appiumVersion: '1.16.0'
+        // deviceName: 'Sony Xperia Z2',
+        // testobject_cache_device: true,
+        // phoneOnly: false,
+        // tabletOnly: false,
     },
 ];
 

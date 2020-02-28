@@ -6,12 +6,16 @@ const { config } = require('./wdio.shared.conf');
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
 config.capabilities = [
     {
-        automationName: 'XCUITest',
-        testobject_app_id: '5',
+        // Saucelabs configurations
+        // ID of the application version and API KEY of the application
+        testobject_app_id: '',
         testobject_api_key: '',
+
+        // Some default settings
+        automationName: 'XCUITest',
         testobject_test_name: 'iOS-Contacts-Sample-App',
         platformName: 'iOS',
-        platformVersion: '12',
+        platformVersion: '11',
         // idleTimeout: 180,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
@@ -19,10 +23,11 @@ config.capabilities = [
         enableAnimations: false,
         autoAcceptAlerts: false,
         maxInstances: 1,
-        appiumVersion: '1.15.0',
-        // deviceName: 'iPhone.*',
+        appiumVersion: '1.16.0',
+        // deviceName: 'iPhone',
         // testobject_cache_device: true,
-        // noReset: true,
+        noReset: false,
+        fullReset: true,
         // phoneOnly: false,
         // tabletOnly: false,
         // useNewWDA: true,
