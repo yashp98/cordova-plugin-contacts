@@ -20,7 +20,8 @@ config.capabilities = [
 
         // chromedriver iOS:
         // chromedriver: join(process.cwd(), 'chromedriver/chromedriver_76_iOS'),
-        noReset: true
+        noReset: false,
+        fullReset: true,
     },
 ];
 

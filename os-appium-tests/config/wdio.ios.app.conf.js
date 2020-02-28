@@ -14,7 +14,8 @@ config.capabilities = [
         platformVersion: '13.3',
         orientation: 'PORTRAIT',
         app: join(process.cwd(), 'apps/Contacts_Sample_App.zip'),
-        noReset: true,
+        noReset: false,
+        fullReset: true,
     },
 ];
 
