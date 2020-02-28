@@ -52,7 +52,6 @@ export function waitForNativeContextLoaded(): void {
  * @param {string} context should be native of webview
  */
 export function switchToContext(context): void {
-    console.log (this.getCurrentContexts());
     browser.switchContext(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
 }
 
