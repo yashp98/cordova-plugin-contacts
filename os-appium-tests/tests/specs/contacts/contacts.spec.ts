@@ -1,12 +1,3 @@
-/*
-After each test scenario (or each suite of tests), the test should have a teardown where all contacts created are deleted
-However, this one doesn't have teardown, because the plugin can't delete contacts and, with appium, we can't access the native contacts and delete them
-
-Leaving the contacts after each test could have impact in the result of the remaining tests and, in the worst scenario, lead to false positives.
-We should be careful while creating new contacts and new tests to not overlay with the already existent contacts.
-For example, new contacts created should have a different name than the already existent ones.
-*/
-
 // Import constants and classes needed
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
@@ -43,12 +34,28 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
+    xit('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
 
         // Reset the device
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+
+        // **************************** TESTE ****************************
+
+        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+        // if (browser.isAndroid) {
+        //     browser.reset();
+        // } else {
+        //     browser.removeApp('com.outsystems.rd.ContactsSampleApp', 'com.outsystems.rd.ContactsSampleApp');
+        //     browser.installApp();
+        // }
+
+        // browser.removeApp();
+        // installApp(appPath: string): undefined;
+        // removeApp(appId: string[], bundleId: string[]): undefined;
+
+        // **************************** TESTE ****************************
 
         // Wait for homepage
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
@@ -83,7 +90,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("2. Deny permission"), Priority="P0", ID="CO0004"]', () => {
+    xit('[Test, Description("2. Deny permission"), Priority="P0", ID="CO0004"]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.reset();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
@@ -309,6 +316,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         const backButton = ContactsScreen.getBackButton();
         backButton.waitForDisplayed(DEFAULT_TIMEOUT);
         backButton.click();
+    });
+
+    afterAll(() => {
+        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+        browser.closeApp();
     });
 
     /**
