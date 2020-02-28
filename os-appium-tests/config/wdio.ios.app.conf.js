@@ -16,6 +16,7 @@ config.capabilities = [
         app: join(process.cwd(), 'apps/Contacts_Sample_App.zip'),
         noReset: false,
         fullReset: true,
+        udid: 'Auto'
     },
 ];
 
