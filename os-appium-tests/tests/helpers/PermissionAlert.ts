@@ -10,10 +10,9 @@ const SELECTORS = {
     },
 
     IOS: {
-        PERMISSION_ALLOW_BUTTON: '~Allow', // '*//XCUIElementTypeButton[@name="Allow"]',
-        PERMISSION_DENY_BUTTON: "~Don’t Allow",
-        // PERMISSION_DIALOG: '*//XCUIElementTypeAlert',
-        PERMISSION_OK_BUTTON: '~OK', // '*//XCUIElementTypeButton[@name="OK"]',
+        PERMISSION_ALLOW_BUTTON: '~Allow',
+        PERMISSION_DENY_BUTTON: "~Don’t Allow", // it has to have "" instead of ''
+        PERMISSION_OK_BUTTON: '~OK',
     },
 };
 
@@ -45,13 +44,13 @@ class PermissionAlert {
         const selector =  driver.isAndroid ?
             AndroidUtils.getElemByPartialId(SELECTORS.ANDROID.PERMISSION_DENY_BUTTON, false) :
             $(SELECTORS.IOS.PERMISSION_DENY_BUTTON);
+
         if (selector === undefined) {
             console.log('Ines: undefined');
             return false;
         } else {
-            console.log('Ines: permission alert found');
-            console.log(selector.isDisplayed());
-            return true;
+            console.log('Ines: permission alert not undefined, isDisplayed=', selector.isDisplayed());
+            return selector.isDisplayed();
         }
     }
 
