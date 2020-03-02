@@ -7,8 +7,6 @@ import nativeContactList, * as ContactsScreen from '../../screen-objects/contact
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
-
     beforeAll(() => {
         // Wait for webview to load
         Context.waitForNativeContextLoaded();
@@ -29,103 +27,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         }
 
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-
-    });
-
-    xit('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
-
-        // Reset the device
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        browser.reset();
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-
-        // **************************** TESTE ****************************
-
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        // if (browser.isAndroid) {
-        //     browser.reset();
-        // } else {
-        //     browser.removeApp('com.outsystems.rd.ContactsSampleApp', 'com.outsystems.rd.ContactsSampleApp');
-        //     browser.installApp();
-        // }
-
-        // browser.removeApp();
-        // installApp(appPath: string): undefined;
-        // removeApp(appId: string[], bundleId: string[]): undefined;
-
-        // **************************** TESTE ****************************
-
-        // Wait for homepage
-        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-
-        // Go to Pick Contact screen
-        const pickContactScreenButton = ContactsScreen.getPickContactScreen();
-        pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        pickContactScreenButton.click();
-
-        // Wait for Pick Contact Screen
-        waitForScreen(ContactsScreen.SCREENTITLES.PICK_CONTACT);
-
-        // Wait for the button "Pick" to appear and click on it
-        const pickContactButton = ContactsScreen.getPickContactButton();
-        pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        pickContactButton.click();
-
-        // Click Allow/Ok in permission
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        const permissionAlert = PermissionAlert.getPermissionDialog(browser);
-        permissionAlert.waitForDisplayed(DEFAULT_TIMEOUT);
-        expect(permissionAlert.isDisplayed());
-        PermissionAlert.okPermission(true, browser);
-
-        // Expect device to open the native Contacts Screen
-        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
-
-        // Reset application and go back to the homepage
-        browser.reset();
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-
-    });
-
-    xit('[Test, Description("2. Deny permission"), Priority="P0", ID="CO0004"]', () => {
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        browser.reset();
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-
-        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-
-        const pickContactScreenButton = ContactsScreen.getPickContactScreen();
-        pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        pickContactScreenButton.click();
-
-        // Go to Pick Contact screen
-        waitForScreen(ContactsScreen.SCREENTITLES.PICK_CONTACT);
-
-        const pickContactButton = ContactsScreen.getPickContactButton();
-        pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        // pickContactButton.scrollIntoView();
-        pickContactButton.click();
-
-        // Click Deny in permission
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        const permissionAlert = PermissionAlert.getPermissionDialog(browser);
-        permissionAlert.waitForDisplayed(DEFAULT_TIMEOUT);
-        expect(permissionAlert.isDisplayed());
-        PermissionAlert.okPermission(false, browser);
-
-        // Check if error message is received
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        const messagePopUp = ContactsScreen.getMessagePopup();
-        expect(messagePopUp.isDisplayed());
-        expect(messagePopUp.getText()).toContain('ErrorMessage: Could not pick contact');
-
-        // Reset application and go back to the homepage
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        browser.reset();
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-
     });
 
     it('[Test, Description("3. Add contact with all parameters and Remove contact"), Priority="P0", ID="CO0005"]', () => {
@@ -154,11 +55,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // successCard.scrollIntoView();
 
         expect(successMessageRemoveText).toEqual('Removed successfully!');
-
     });
 
     it('[Test, Description("4. Find Contact"), Priority="P0", ID="CO0012"]', () => {
-
         // Back To Home Screen
         backToHomeScreen();
 
@@ -219,11 +118,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(findPhone.getText()).toEqual('+351000000000');
         expect(findEmail.getText()).toEqual('email1@outsystems.com');
 
-        // expect(ContactsScreen.getValidateFirstName().getText()).toEqual('Test app - Name1');
-        // expect(ContactsScreen.getValidateLastName().getText()).toEqual('Last1');
-        // expect(ContactsScreen.getValidatePhoneNumber().getText()).toEqual('+351000000000');
-        // expect(ContactsScreen.getValidateEmail().getText()).toEqual('email1@outsystems.com');
-
         removeContact(false);
 
         const successCardRemove = ContactsScreen.getSuccessCard();
@@ -243,18 +137,10 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         addContact();
 
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-
-        // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
         allowOkPermissionIfNeeded(true);
-        // NativeAlert.pressButton('OK', browser);
-        // PermissionAlert.OkPermission(true, browser);
-        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
-        // The expected result is for the contact to be created (message text = true)
         const successAddCard = ContactsScreen.getSuccessCard();
         successAddCard.waitForDisplayed(DEFAULT_TIMEOUT);
-        // successCard.scrollIntoView();
 
         const successMessageAddText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageAddText).toEqual('Contact successfully added.');
@@ -273,7 +159,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Test: click to pick the contact
         const pickContactButton = ContactsScreen.getPickContactButton();
         pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
         allowOkPermissionIfNeeded(true);
@@ -281,10 +166,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
         expect(nativeContactList.findNativeContactList(browser).isDisplayed());
-
-        // console.log('ines_findNativeContactList');
-        // console.log(nativeContactList.findNativeContactList(browser));
-        // console.log(nativeContactList.nativeContact(browser));
 
         nativeContactList.clickNativeContact(browser);
 
