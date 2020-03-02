@@ -7,8 +7,6 @@ import nativeContactList, * as ContactsScreen from '../../screen-objects/contact
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
-
     beforeAll(() => {
         // Wait for webview to load
         Context.waitForNativeContextLoaded();
@@ -33,9 +31,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     });
 
     it('[Test, Description("2. Deny permission"), Priority="P0", ID="CO0004"]', () => {
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        // browser.reset();
-        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
@@ -64,15 +59,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         expect(messagePopUp.isDisplayed());
         expect(messagePopUp.getText()).toContain('ErrorMessage: Could not pick contact');
 
-        // Reset application and go back to the homepage
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        // browser.reset();
-        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        // waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
+    });
 
+    afterAll(() => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.closeApp();
-
     });
 
     /**
