@@ -1,6 +1,6 @@
 import {DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL} from '../constants';
-import * as AndroidUtils from '../helpers/AndroidUtils';
-import * as IosUtils from '../helpers/IOSUtils';
+import * as AndroidUtils from './android-utils';
+import * as IosUtils from './ios-utils';
 
 const SELECTORS = {
     ANDROID: {

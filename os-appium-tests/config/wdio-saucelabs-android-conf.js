@@ -1,4 +1,4 @@
-const { config } = require('./wdio.shared.conf');
+const { config } = require('./wdio-shared-conf');
 // ============
 // Capabilities
 // ============
@@ -8,30 +8,27 @@ config.capabilities = [
     {
         // Saucelabs configurations
         // ID of the application version and API KEY of the application
-        testobject_app_id: '',
-        testobject_api_key: '',
+        testobject_app_id: '5',
+        testobject_api_key: '83988D69323A4660B364B94CD054A7E0',
 
         // Some default settings
-        automationName: 'XCUITest',
-        testobject_test_name: 'iOS-Contacts-Sample-App',
-        platformName: 'iOS',
-        platformVersion: '11',
-        // idleTimeout: 180,
+        platformName: 'Android',
+        platformVersion: '10',
+        idleTimeout: 180,
+        maxInstances: 2,
+        testobject_test_name: 'Contacts-Sample-App',
+        noReset: false,
+        fullReset: true,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
         privateDevicesOnly: false,
         enableAnimations: false,
         autoAcceptAlerts: false,
-        maxInstances: 1,
-        appiumVersion: '1.16.0',
-        // deviceName: 'iPhone',
+        appiumVersion: '1.16.0'
+        // deviceName: 'Sony Xperia Z2',
         // testobject_cache_device: true,
-        noReset: false,
-        fullReset: true,
         // phoneOnly: false,
         // tabletOnly: false,
-        // useNewWDA: true,
-        // usePrebuiltWDA: true
     },
 ];
 

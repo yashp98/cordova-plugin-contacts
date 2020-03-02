@@ -1,7 +1,7 @@
-import * as AndroidUtils from '../helpers/AndroidUtils';
-import * as Context from '../helpers/Context';
-import Gestures from '../helpers/Gestures';
-import * as IosUtils from '../helpers/IOSUtils';
+import * as AndroidUtils from '../helpers/android-utils';
+import * as Context from '../helpers/context';
+import Gestures from '../helpers/gestures';
+import * as IosUtils from '../helpers/ios-utils';
 
 // APPLICATION DEFAULTS
 

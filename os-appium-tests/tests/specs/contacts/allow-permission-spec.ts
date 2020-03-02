@@ -1,11 +1,9 @@
 // Import constants and classes needed
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
-import * as Context from '../../helpers/Context';
-import Gestures from '../../helpers/Gestures';
-import PermissionAlert from '../../helpers/PermissionAlert';
-// import nativeContactList from '../../screenobjects/ContactsScreen';
-import nativeContactList, * as ContactsScreen from '../../screenobjects/ContactsScreen';
+import * as Context from '../../helpers/context';
+import PermissionAlert from '../../helpers/permission-alert';
+import nativeContactList, * as ContactsScreen from '../../screen-objects/contacts-screen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
@@ -34,46 +32,62 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("2. Deny permission"), Priority="P0", ID="CO0004"]', () => {
+    it('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
+
+        // Reset the device
         // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         // browser.reset();
         // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
+        // **************************** TESTE ****************************
+
+        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
+        // if (browser.isAndroid) {
+        //     browser.reset();
+        // } else {
+        //     browser.removeApp('com.outsystems.rd.ContactsSampleApp', 'com.outsystems.rd.ContactsSampleApp');
+        //     browser.installApp();
+        // }
+
+        // browser.removeApp();
+        // installApp(appPath: string): undefined;
+        // removeApp(appId: string[], bundleId: string[]): undefined;
+
+        // **************************** TESTE ****************************
+
+        // Wait for homepage
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
+        // Go to Pick Contact screen
         const pickContactScreenButton = ContactsScreen.getPickContactScreen();
         pickContactScreenButton.waitForDisplayed(DEFAULT_TIMEOUT);
         pickContactScreenButton.click();
 
-        // Go to Pick Contact screen
+        // Wait for Pick Contact Screen
         waitForScreen(ContactsScreen.SCREENTITLES.PICK_CONTACT);
 
+        // Wait for the button "Pick" to appear and click on it
         const pickContactButton = ContactsScreen.getPickContactButton();
         pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
-        // pickContactButton.scrollIntoView();
         pickContactButton.click();
 
-        // Click Deny in permission
+        // Click Allow/Ok in permission
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         const permissionAlert = PermissionAlert.getPermissionDialog(browser);
         permissionAlert.waitForDisplayed(DEFAULT_TIMEOUT);
         expect(permissionAlert.isDisplayed());
-        PermissionAlert.okPermission(false, browser);
+        PermissionAlert.okPermission(true, browser);
 
-        // Check if error message is received
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        const messagePopUp = ContactsScreen.getMessagePopup();
-        expect(messagePopUp.isDisplayed());
-        expect(messagePopUp.getText()).toContain('ErrorMessage: Could not pick contact');
-
-        // Reset application and go back to the homepage
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        // browser.reset();
-        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        // waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
+        // Expect device to open the native Contacts Screen
+        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
 
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.closeApp();
+
+        // Reset application and go back to the homepage
+        // browser.reset();
+        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
+        // waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
     });
 

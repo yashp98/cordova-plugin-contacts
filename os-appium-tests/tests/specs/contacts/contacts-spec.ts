@@ -1,11 +1,9 @@
 // Import constants and classes needed
 import 'jasmine';
 import { DEFAULT_TIMEOUT, DEFAULT_TIMEOUT_INTERVAL } from '../../constants';
-import * as Context from '../../helpers/Context';
-import Gestures from '../../helpers/Gestures';
-import PermissionAlert from '../../helpers/PermissionAlert';
-// import nativeContactList from '../../screenobjects/ContactsScreen';
-import nativeContactList, * as ContactsScreen from '../../screenobjects/ContactsScreen';
+import * as Context from '../../helpers/context';
+import PermissionAlert from '../../helpers/permission-alert';
+import nativeContactList, * as ContactsScreen from '../../screen-objects/contacts-screen';
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 

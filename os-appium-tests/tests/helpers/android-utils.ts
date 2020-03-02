@@ -1,5 +1,5 @@
 import { DEFAULT_TIMEOUT } from '../constants';
-import { waitForElement } from './Context';
+import { waitForElement } from './context';
 
 export function getByTextSelector (val: string): string {
     return 'new UiSelector().text("' + val + '")';

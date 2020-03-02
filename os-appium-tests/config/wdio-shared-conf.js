@@ -4,10 +4,10 @@ exports.config = {
     // Specs
     // ============
     specs: [
-        './tests/specs/**/*.*spec.ts'
-        // './tests/specs/contacts/contacts.spec.ts'
-        // './tests/specs/contacts/allowPermission.spec.ts'
-        // './tests/specs/contacts/denyPermission.spec.ts'
+        './tests/specs/**/*-*spec.ts'
+        // './tests/specs/contacts/contacts-spec.ts'
+        // './tests/specs/contacts/allow-permission-spec.ts'
+        // './tests/specs/contacts/deny-permission-spec.ts'
     ],
 
     // ====================
@@ -32,7 +32,7 @@ exports.config = {
             if (passed) {
                 return;
             }
-            browser.saveScreenshot(`tests/error_assertions/assertionError_${assertion.error.message}.png`);
+            browser.saveScreenshot(`tests/error-assertions/assertionError-${assertion.error.message}.png`);
         }
     },
     sync: true,

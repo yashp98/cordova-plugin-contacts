@@ -1,4 +1,4 @@
-const { config } = require('./wdio.shared.conf');
+const { config } = require('./wdio-shared-conf');
 const { join } = require('path');
 // ============
 // Capabilities

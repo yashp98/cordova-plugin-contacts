@@ -1,15 +1,15 @@
-const { config } = require('./wdio.shared.conf');
+const { config } = require('./wdio-shared-conf');
 
 // ============
 // Specs
 // ============
 config.specs = [
-    './dist/specs/**/*.spec.js',
+    './dist/specs/**/*-spec.js',
 ];
 
 // define specific suites
 config.suites = {
-    home: ['./dist/specs/contacts/contacts.spec.js']
+    home: ['./dist/specs/contacts/contacts-spec.js']
 };
 
 config.capabilities = [

@@ -1,5 +1,5 @@
 import { DEFAULT_TIMEOUT } from '../constants';
-import { waitForElement } from './Context';
+import { waitForElement } from './context';
 
 function getNameSelector(name: string, type?: string): string {
     let convType = (type != undefined && type != "") ? type : "*";
