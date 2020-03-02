@@ -17,7 +17,9 @@ allure-results/
 os-appium-tests/allure-results/
 allure-report/
 os-appium-tests/dist/
+os-appium-tests/dist/
 *.zip
 *.tar
 os-appium-tests/package-lock.json
 os-appium-tests/package-lock.json
+os-appium-tests/tests/error-assertions/
