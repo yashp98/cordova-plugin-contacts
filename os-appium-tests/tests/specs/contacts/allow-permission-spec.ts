@@ -7,8 +7,6 @@ import nativeContactList, * as ContactsScreen from '../../screen-objects/contact
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
-
     beforeAll(() => {
         // Wait for webview to load
         Context.waitForNativeContextLoaded();
@@ -33,28 +31,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     });
 
     it('[Test, Description("1. Allow permission"), Priority="P0", ID="CO0002 + CO0003"]', () => {
-
-        // Reset the device
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        // browser.reset();
-        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-
-        // **************************** TESTE ****************************
-
-        // Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        // if (browser.isAndroid) {
-        //     browser.reset();
-        // } else {
-        //     browser.removeApp('com.outsystems.rd.ContactsSampleApp', 'com.outsystems.rd.ContactsSampleApp');
-        //     browser.installApp();
-        // }
-
-        // browser.removeApp();
-        // installApp(appPath: string): undefined;
-        // removeApp(appId: string[], bundleId: string[]): undefined;
-
-        // **************************** TESTE ****************************
-
         // Wait for homepage
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
 
@@ -81,14 +57,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Expect device to open the native Contacts Screen
         expect(nativeContactList.findNativeContactList(browser).isDisplayed());
 
+    });
+
+    afterAll(() => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.closeApp();
-
-        // Reset application and go back to the homepage
-        // browser.reset();
-        // Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-        // waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
-
     });
 
     /**
