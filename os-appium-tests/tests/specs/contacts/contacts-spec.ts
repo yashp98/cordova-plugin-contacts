@@ -7,7 +7,14 @@ import nativeContactList, * as ContactsScreen from '../../screen-objects/contact
 
 describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
+    let originalTimeOut;
+
     beforeAll(() => {
+
+        // change the default timeout of Jasmine
+        originalTimeOut = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
+
         // Wait for webview to load
         Context.waitForNativeContextLoaded();
         Context.waitForWebViewContextLoaded();
@@ -43,6 +50,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         const successMessageAddText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageAddText).toEqual('Contact successfully added.');
 
+        // Go back to home screen
         backToHomeScreen();
 
         // Remove contact
@@ -126,7 +134,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
+    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', (done) => {
         // Back To Home Screen
         backToHomeScreen();
 
@@ -141,7 +149,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         const successMessageAddText = ContactsScreen.getSuccessMessage().getText();
         expect(successMessageAddText).toEqual('Contact successfully added.');
 
-        // Back To Home Screen
         backToHomeScreen();
 
         // Enter Pick Contact Screen
@@ -160,10 +167,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
         // Verify if the native contact list appears
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-        expect(nativeContactList.findNativeContactList(browser).isDisplayed());
+        nativeContactList.findNativeContactListWaitForDisplayed();
+        expect(nativeContactList.findNativeContactListIsDisplayed());
 
         // Find the contact created and click on it
-        nativeContactList.clickNativeContact(browser);
+        nativeContactList.clickNativeContact();
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
 
         // Validate all the information in the contact
@@ -198,6 +206,9 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     afterAll(() => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         browser.closeApp();
+
+        // Change Jasmine timeout to the default
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeOut;
     });
 
     /**
@@ -207,8 +218,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown(browser) === true) {
-            PermissionAlert.allowPermission(allow, browser);
+        if (PermissionAlert.isShown() === true) {
+            PermissionAlert.allowPermission(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
@@ -216,8 +227,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const allowOkPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown(browser)) {
-            PermissionAlert.okPermission(allow, browser);
+        if (PermissionAlert.isShown()) {
+            PermissionAlert.okPermission(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
