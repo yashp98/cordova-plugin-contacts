@@ -134,7 +134,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
 
     });
 
-    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', (done) => {
+    it('[Test, Description("5. Pick Contact"), Priority="P0", ID="CO0017"]', () => {
         // Back To Home Screen
         backToHomeScreen();
 
