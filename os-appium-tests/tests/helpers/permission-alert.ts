@@ -22,8 +22,8 @@ class PermissionAlert {
      * Wait for the alert to exist
      */
 
-    public static waitForIsShown(isShown = true, driver): void {
-        if (driver.isAndroid) {
+    public static waitForIsShown(isShown = true): void {
+        if (browser.isAndroid) {
             try {
                 $(SELECTORS.ANDROID.PERMISSION_ALLOW_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
             } catch (err) {
@@ -40,16 +40,14 @@ class PermissionAlert {
      * If it's there, returns true if displayed
      * If it's not there, returns false
      */
-    public static isShown(driver): boolean {
-        const selector =  driver.isAndroid ?
+    public static isShown(): boolean {
+        const selector =  browser.isAndroid ?
             AndroidUtils.getElemByPartialId(SELECTORS.ANDROID.PERMISSION_DENY_BUTTON, false) :
             $(SELECTORS.IOS.PERMISSION_DENY_BUTTON);
 
         if (selector === undefined) {
-            console.log('Ines: undefined');
             return false;
         } else {
-            console.log('Ines: permission alert not undefined, isDisplayed=', selector.isDisplayed());
             return selector.isDisplayed();
         }
     }
@@ -60,40 +58,45 @@ class PermissionAlert {
      */
 
     // We are checking for the DENY button because the allow button can be OK/ALLOW in iOS, so the deny button is more accurate
-    public static getPermissionDialog(driver): WebdriverIO.Element {
-        const selector = driver.isAndroid ? SELECTORS.ANDROID.PERMISSION_DENY_BUTTON : SELECTORS.IOS.PERMISSION_DENY_BUTTON;
-        return driver.isAndroid ?
+    public static getPermissionDialog(): WebdriverIO.Element {
+        const selector = browser.isAndroid ? SELECTORS.ANDROID.PERMISSION_DENY_BUTTON : SELECTORS.IOS.PERMISSION_DENY_BUTTON;
+        return browser.isAndroid ?
             AndroidUtils.getElemByPartialId(selector, false) :
             $(selector);
-            // IosUtils.getElemByLabel(buttonSelector, false);
     }
+
+    public static getPermissionDialogWaitForDisplayed(): void {
+        this.getPermissionDialog().waitForDisplayed(DEFAULT_TIMEOUT);
+     }
+
+     public static getPermissionDialogIsDisplayed(): void {
+        this.getPermissionDialog().isDisplayed();
+     }
 
     // There are two different permission functions: allowPermission and okPermission
     // This happens because iOS has two different permissions: ones with "OK" button, others with "ALLOW" button
-    public static allowPermission(allow = true, driver): void {
-       this.getPermissionButton(allow, driver).click();
+    public static allowPermission(allow = true): void {
+       this.getPermissionButton(allow).click();
     }
 
-    public static getPermissionButton(allow = true, driver): WebdriverIO.Element {
-        const selectors = driver.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
+    public static getPermissionButton(allow = true): WebdriverIO.Element {
+        const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
         const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
-        return driver.isAndroid ?
+        return browser.isAndroid ?
             AndroidUtils.getElemByPartialId(buttonSelector, false) :
             $(buttonSelector);
-            // IosUtils.getElemByXPath(buttonSelector, false);
     }
 
-    public static okPermission(allow = true, driver): void {
-        this.getPermissionOkButton(allow, driver).click();
+    public static okPermission(allow = true): void {
+        this.getPermissionOkButton(allow).click();
      }
 
-     public static getPermissionOkButton(allow = true, driver): WebdriverIO.Element {
-        const selectors = driver.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
+     public static getPermissionOkButton(allow = true): WebdriverIO.Element {
+        const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
         const buttonSelector = allow ? selectors.PERMISSION_OK_BUTTON : selectors.PERMISSION_DENY_BUTTON;
-        return driver.isAndroid ?
+        return browser.isAndroid ?
             AndroidUtils.getElemByPartialId(buttonSelector, false) :
             $(buttonSelector);
-            // IosUtils.getElemByXPath(buttonSelector, false);
      }
 
     /**
@@ -101,8 +104,8 @@ class PermissionAlert {
      *
      * @return {string}
      */
-    public static text(driver): string {
-        return driver.getAlertText();
+    public static text(): string {
+        return browser.getAlertText();
     }
 }
 
