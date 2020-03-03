@@ -1,3 +1,4 @@
+import { DEFAULT_TIMEOUT } from '../constants';
 import * as AndroidUtils from '../helpers/android-utils';
 import * as Context from '../helpers/context';
 import Gestures from '../helpers/gestures';
@@ -280,37 +281,43 @@ const SELECTORS = {
 
 class NativeContactList {
 
- public static findNativeContactList(driver): WebdriverIO.Element {
-     const listSelector = driver.isAndroid ? SELECTORS.ANDROID.CONTACTS_LIST : SELECTORS.IOS.CONTACTS_LIST;
-     return driver.isAndroid ?
+ public static findNativeContactList(): WebdriverIO.Element {
+     const listSelector = browser.isAndroid ? SELECTORS.ANDROID.CONTACTS_LIST : SELECTORS.IOS.CONTACTS_LIST;
+     return browser.isAndroid ?
          $(listSelector) :
          IosUtils.getElemByXPath(listSelector, false);
  }
 
- public static nativeContact(driver): WebdriverIO.Element {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 180000;
+ public static findNativeContactListWaitForDisplayed(): void {
+    this.findNativeContactList().waitForDisplayed(DEFAULT_TIMEOUT);
+}
 
-    const listSelector = driver.isAndroid ? SELECTORS.ANDROID.CONTACTS_ITEM : SELECTORS.IOS.CONTACTS_ITEM;
+ public static findNativeContactListIsDisplayed(): void {
+    this.findNativeContactList().isDisplayed();
+}
 
-    let element = driver.isAndroid ?
+ public static nativeContact(): WebdriverIO.Element {
+    const listSelector = browser.isAndroid ? SELECTORS.ANDROID.CONTACTS_ITEM : SELECTORS.IOS.CONTACTS_ITEM;
+
+    let element = browser.isAndroid ?
     AndroidUtils.getElemByContainsText(listSelector, false) :
     IosUtils.getElemByXPath(listSelector, false);
 
     for (let index = 0; index < 10 && element === undefined; index++) {
         Gestures.swipeUp(0.90, browser);
-        element = driver.isAndroid ?
+        element = browser.isAndroid ?
         AndroidUtils.getElemByContainsText(listSelector, false) :
         IosUtils.getElemByXPath(listSelector, false);
     }
     return element;
 }
 
- public static clickNativeContact(driver): void {
-    this.nativeContact(driver).click();
+ public static clickNativeContact(): void {
+    this.nativeContact().click();
 }
 
- public static text(driver): string {
-    return driver.getAlertText();
+ public static text(): string {
+    return browser.getAlertText();
 }
 }
 export default NativeContactList;
