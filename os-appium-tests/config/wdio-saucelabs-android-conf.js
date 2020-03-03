@@ -8,12 +8,12 @@ config.capabilities = [
     {
         // Saucelabs configurations
         // ID of the application version and API KEY of the application
-        testobject_app_id: '5',
-        testobject_api_key: '83988D69323A4660B364B94CD054A7E0',
+        testobject_app_id: '',
+        testobject_api_key: '',
 
         // Some default settings
         platformName: 'Android',
-        platformVersion: '10',
+        platformVersion: '6',
         idleTimeout: 180,
         maxInstances: 2,
         testobject_test_name: 'Contacts-Sample-App',
@@ -25,7 +25,7 @@ config.capabilities = [
         enableAnimations: false,
         autoAcceptAlerts: false,
         appiumVersion: '1.16.0'
-        // deviceName: 'Sony Xperia Z2',
+        // deviceName: 'Sony Xperia Z2'
         // testobject_cache_device: true,
         // phoneOnly: false,
         // tabletOnly: false,

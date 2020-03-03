@@ -8,14 +8,14 @@ config.capabilities = [
     {
         // Saucelabs configurations
         // ID of the application version and API KEY of the application
-        testobject_app_id: '6',
-        testobject_api_key: 'FBFD86FED1294C7EA3B571A88DC89C61',
+        testobject_app_id: '',
+        testobject_api_key: '',
 
         // Some default settings
         automationName: 'XCUITest',
         testobject_test_name: 'iOS-Contacts-Sample-App',
         platformName: 'iOS',
-        platformVersion: '11',
+        platformVersion: '12',
         // idleTimeout: 180,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
