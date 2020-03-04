@@ -11,24 +11,18 @@ const SELECTORS = {
 
     IOS: {
         PERMISSION_ALLOW_BUTTON: '~Allow',
-        PERMISSION_DENY_BUTTON: "~Don’t Allow", // it has to have "" instead of ''
+        PERMISSION_DENY_BUTTON: '~Don’t Allow',
         PERMISSION_OK_BUTTON: '~OK',
     },
 };
 
-class PermissionAlert {
-
+class NativeAlert {
     /**
      * Wait for the alert to exist
      */
-
-    public static waitForIsShown(isShown = true): void {
+    public static waitForIsShown (isShown = true): void {
         if (browser.isAndroid) {
-            try {
                 $(SELECTORS.ANDROID.PERMISSION_ALLOW_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
-            } catch (err) {
-                $(SELECTORS.ANDROID.PERMISSION_ALLOW_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
-            }
         } else {
             $(SELECTORS.IOS.PERMISSION_DENY_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
         }
@@ -57,7 +51,8 @@ class PermissionAlert {
      * @param {boolean} allow
      */
 
-    // We are checking for the DENY button because the allow button can be OK/ALLOW in iOS, so the deny button is more accurate
+    // Get the native permission dialog
+    // It's checking for the DENY button because the allow button can be OK/ALLOW in iOS, so the deny button is more accurate
     public static getPermissionDialog(): WebdriverIO.Element {
         const selector = browser.isAndroid ? SELECTORS.ANDROID.PERMISSION_DENY_BUTTON : SELECTORS.IOS.PERMISSION_DENY_BUTTON;
         return browser.isAndroid ?
@@ -65,21 +60,20 @@ class PermissionAlert {
             $(selector);
     }
 
+    // Wait until Permission Dialog is displayed
     public static getPermissionDialogWaitForDisplayed(): void {
         this.getPermissionDialog().waitForDisplayed(DEFAULT_TIMEOUT);
      }
 
+    // Check if permission dialog is displayed: true or false
      public static getPermissionDialogIsDisplayed(): void {
         this.getPermissionDialog().isDisplayed();
      }
 
     // There are two different permission functions: allowPermission and okPermission
     // This happens because iOS has two different permissions: ones with "OK" button, others with "ALLOW" button
-    public static allowPermission(allow = true): void {
-       this.getPermissionButton(allow).click();
-    }
 
-    public static getPermissionButton(allow = true): WebdriverIO.Element {
+    public static getPermissionAllowButton(allow = true): WebdriverIO.Element {
         const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
         const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
         return browser.isAndroid ?
@@ -87,8 +81,8 @@ class PermissionAlert {
             $(buttonSelector);
     }
 
-    public static okPermission(allow = true): void {
-        this.getPermissionOkButton(allow).click();
+    public static clickAllowPermission(allow = true): void {
+        this.getPermissionAllowButton(allow).click();
      }
 
      public static getPermissionOkButton(allow = true): WebdriverIO.Element {
@@ -97,6 +91,10 @@ class PermissionAlert {
         return browser.isAndroid ?
             AndroidUtils.getElemByPartialId(buttonSelector, false) :
             $(buttonSelector);
+     }
+
+     public static clickOkPermission(allow = true): void {
+        this.getPermissionOkButton(allow).click();
      }
 
     /**
@@ -109,4 +107,4 @@ class PermissionAlert {
     }
 }
 
-export default PermissionAlert;
+export default NativeAlert;
