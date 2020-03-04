@@ -51,7 +51,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         PermissionAlert.getPermissionDialogWaitForDisplayed();
         expect(PermissionAlert.getPermissionDialogIsDisplayed());
-        PermissionAlert.okPermission(true);
+        PermissionAlert.clickOkPermission(true);
 
         // Expect device to open the native Contacts Screen
         nativeContactList.findNativeContactListWaitForDisplayed();
@@ -71,8 +71,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown() === true) {
-            PermissionAlert.allowPermission(allow);
+        if (PermissionAlert.isShown()) {
+            PermissionAlert.clickAllowPermission(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
@@ -81,7 +81,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
         if (PermissionAlert.isShown()) {
-            PermissionAlert.okPermission(allow);
+            PermissionAlert.clickOkPermission(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };

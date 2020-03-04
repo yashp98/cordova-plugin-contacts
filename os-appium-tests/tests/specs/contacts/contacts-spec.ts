@@ -218,8 +218,8 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
     const allowPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
-        if (PermissionAlert.isShown() === true) {
-            PermissionAlert.allowPermission(allow);
+        if (PermissionAlert.isShown()) {
+            PermissionAlert.clickAllowPermission(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
@@ -228,7 +228,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
         if (PermissionAlert.isShown()) {
-            PermissionAlert.okPermission(allow);
+            PermissionAlert.clickOkPermission(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
@@ -322,3 +322,5 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         waitForScreen(ContactsScreen.SCREENTITLES.HOME_SCREEN);
     };
 });
+
+// Galaxy A7 & Meizo 6th
