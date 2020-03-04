@@ -1,2 +1,2 @@
-export const DEFAULT_TIMEOUT = 10000;
+export const DEFAULT_TIMEOUT = 13000;
 export const DEFAULT_TIMEOUT_INTERVAL = 1000;
