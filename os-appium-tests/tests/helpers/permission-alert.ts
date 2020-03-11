@@ -16,13 +16,13 @@ const SELECTORS = {
     },
 };
 
-class NativeAlert {
+class PermissionAlert {
     /**
      * Wait for the alert to exist
      */
-    public static waitForIsShown (isShown = true): void {
+    public static waitForIsShown(isShown = true): void {
         if (browser.isAndroid) {
-                $(SELECTORS.ANDROID.PERMISSION_ALLOW_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
+                $(SELECTORS.ANDROID.PERMISSION_DENY_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
         } else {
             $(SELECTORS.IOS.PERMISSION_DENY_BUTTON).waitForExist(DEFAULT_TIMEOUT, !isShown);
         }
@@ -51,8 +51,12 @@ class NativeAlert {
      * @param {boolean} allow
      */
 
-    // Get the native permission dialog
-    // It's checking for the DENY button because the allow button can be OK/ALLOW in iOS, so the deny button is more accurate
+     /**
+      * Get the native permission dialog
+      * IOS: always has an accessibilityID so use the `~` in combination
+      * It's checking for the DENY button because the allow button can be OK/ALLOW in iOS, so the deny button is more accurate
+      */
+
     public static getPermissionDialog(): WebdriverIO.Element {
         const selector = browser.isAndroid ? SELECTORS.ANDROID.PERMISSION_DENY_BUTTON : SELECTORS.IOS.PERMISSION_DENY_BUTTON;
         return browser.isAndroid ?
@@ -73,29 +77,51 @@ class NativeAlert {
     // There are two different permission functions: allowPermission and okPermission
     // This happens because iOS has two different permissions: ones with "OK" button, others with "ALLOW" button
 
-    public static getPermissionAllowButton(allow = true): WebdriverIO.Element {
+    // public static getPermissionAllowButton(allow = true): WebdriverIO.Element {
+    //     const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
+    //     const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
+    //     return browser.isAndroid ?
+    //         AndroidUtils.getElemByPartialId(buttonSelector, false) :
+    //         $(buttonSelector);
+    // }
+
+    // public static clickAllowPermission(allow = true): void {
+    //     this.getPermissionAllowButton(allow).click();
+    //  }
+
+    //  public static getPermissionOkButton(allow = true): WebdriverIO.Element {
+    //     const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
+    //     const buttonSelector = allow ? selectors.PERMISSION_OK_BUTTON : selectors.PERMISSION_DENY_BUTTON;
+    //     return browser.isAndroid ?
+    //         AndroidUtils.getElemByPartialId(buttonSelector, false) :
+    //         $(buttonSelector);
+    //  }
+
+    //  public static clickOkPermission(allow = true): void {
+    //     this.getPermissionOkButton(allow).click();
+    //  }
+
+    public static clickPermissionButton(allow = true): void {
         const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
-        const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
-        return browser.isAndroid ?
-            AndroidUtils.getElemByPartialId(buttonSelector, false) :
-            $(buttonSelector);
+        if (browser.isAndroid) {
+            const buttonSelector = allow ? selectors.PERMISSION_ALLOW_BUTTON : selectors.PERMISSION_DENY_BUTTON;
+            AndroidUtils.getElemByPartialId(buttonSelector, false).click();
+        } else {
+            if (allow) {
+                const buttonSelectorAllow = $(selectors.PERMISSION_ALLOW_BUTTON);
+                if (buttonSelectorAllow.isDisplayed()) {
+                    buttonSelectorAllow.click();
+                } else {
+                    const buttonSelectorOk = $(selectors.PERMISSION_OK_BUTTON);
+                    if (buttonSelectorOk.isDisplayed()) {
+                        buttonSelectorOk.click();
+                    }
+                }
+            } else {
+                $(selectors.PERMISSION_DENY_BUTTON).click();
+            }
+        }
     }
-
-    public static clickAllowPermission(allow = true): void {
-        this.getPermissionAllowButton(allow).click();
-     }
-
-     public static getPermissionOkButton(allow = true): WebdriverIO.Element {
-        const selectors = browser.isAndroid ? SELECTORS.ANDROID : SELECTORS.IOS;
-        const buttonSelector = allow ? selectors.PERMISSION_OK_BUTTON : selectors.PERMISSION_DENY_BUTTON;
-        return browser.isAndroid ?
-            AndroidUtils.getElemByPartialId(buttonSelector, false) :
-            $(buttonSelector);
-     }
-
-     public static clickOkPermission(allow = true): void {
-        this.getPermissionOkButton(allow).click();
-     }
 
     /**
      * Get the alert text
@@ -107,4 +133,4 @@ class NativeAlert {
     }
 }
 
-export default NativeAlert;
+export default PermissionAlert;

@@ -29,7 +29,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
         if (browser.isIOS) {
             browser.pause(3000);
-            allowPermissionIfNeeded(true);
+            clickInPermissionIfNeeded(true);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     });
@@ -41,7 +41,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         addContact();
 
         // In case an alert message appears to allow permissions to the phone, it clicks ALLOW
-        allowOkPermissionIfNeeded(true);
+        clickInPermissionIfNeeded(true);
 
         // Expect a success message
         const successAddCard = ContactsScreen.getSuccessCard();
@@ -70,7 +70,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Add contact
         addContact();
 
-        allowOkPermissionIfNeeded(true);
+        clickInPermissionIfNeeded(true);
 
         const successAddCard = ContactsScreen.getSuccessCard();
         successAddCard.waitForDisplayed(DEFAULT_TIMEOUT);
@@ -97,7 +97,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         findContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
         findContactButton.click();
 
-        allowOkPermissionIfNeeded(true);
+        clickInPermissionIfNeeded(true);
 
         // Wait for the list to be displayed and click in the first result
         const findContactResultList = ContactsScreen.getFindContactResultList();
@@ -141,7 +141,7 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         // Add contact
         addContact();
 
-        allowOkPermissionIfNeeded(true);
+        clickInPermissionIfNeeded(true);
 
         const successAddCard = ContactsScreen.getSuccessCard();
         successAddCard.waitForDisplayed(DEFAULT_TIMEOUT);
@@ -162,8 +162,6 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
         const pickContactButton = ContactsScreen.getPickContactButton();
         pickContactButton.waitForDisplayed(DEFAULT_TIMEOUT);
         pickContactButton.click();
-
-        allowOkPermissionIfNeeded(true);
 
         // Verify if the native contact list appears
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
@@ -215,20 +213,11 @@ describe('[TestSuite, Description("Add Contact and find it")]', () => {
      * UTILS
      */
 
-    const allowPermissionIfNeeded = (allow: boolean) => {
+    const clickInPermissionIfNeeded = (allow: boolean) => {
         Context.switchToContext(Context.CONTEXT_REF.NATIVE);
 
         if (PermissionAlert.isShown()) {
-            PermissionAlert.clickAllowPermission(allow);
-        }
-        Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
-    };
-
-    const allowOkPermissionIfNeeded = (allow: boolean) => {
-        Context.switchToContext(Context.CONTEXT_REF.NATIVE);
-
-        if (PermissionAlert.isShown()) {
-            PermissionAlert.clickOkPermission(allow);
+            PermissionAlert.clickPermissionButton(allow);
         }
         Context.switchToContext(Context.CONTEXT_REF.WEBVIEW);
     };
