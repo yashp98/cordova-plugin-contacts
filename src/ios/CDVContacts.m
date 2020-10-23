@@ -589,15 +589,15 @@
     // TODO: this probably should be reworked - seems like the workerBlock can just create and release its own AddressBook,
     // and also this important warning from (http://developer.apple.com/library/ios/#documentation/ContactData/Conceptual/AddressBookProgrammingGuideforiPhone/Chapters/BasicObjects.html):
     // "Important: Instances of ABAddressBookRef cannot be used by multiple threads. Each thread must make its own instance."
-    ABAddressBookRef addressBook;
-
-    CFErrorRef error = nil;
-    // CFIndex status = ABAddressBookGetAuthorizationStatus();
-    addressBook = ABAddressBookCreateWithOptions(NULL, &error);
-    // NSLog(@"addressBook access: %lu", status);
-    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        ABAddressBookRef addressBook;
+        CFErrorRef error = nil;
+        // CFIndex status = ABAddressBookGetAuthorizationStatus();
+        addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+        // NSLog(@"addressBook access: %lu", status);
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
             // callback can occur in background, address book must be accessed on thread it was created on
-            dispatch_sync(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 if (error) {
                     workerBlock(NULL, [[CDVAddressBookAccessError alloc] initWithCode:UNKNOWN_ERROR]);
                 } else if (!granted) {
@@ -608,6 +608,8 @@
                 }
             });
         });
+    });
+
 }
 
 @end
