@@ -180,24 +180,7 @@ public class ContactManager extends CordovaPlugin {
 
     private void save(JSONArray args) throws JSONException {
         final JSONObject contact = args.getJSONObject(0);
-        this.cordova.getThreadPool().execute(new Runnable(){
-            public void run() {
-                JSONObject res = null;
-                String id = contactAccessor.save(contact);
-                if (id != null) {
-                    try {
-                        res = contactAccessor.getContactById(id);
-                    } catch (JSONException e) {
-                        LOG.e(LOG_TAG, "JSON fail.", e);
-                    }
-                }
-                if (res != null) {
-                    callbackContext.success(res);
-                } else {
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, UNKNOWN_ERROR));
-                }
-            }
-        });
+        contactAccessor.save(contact);
     }
 
     private void search(JSONArray args) throws JSONException
